@@ -7,7 +7,7 @@ module NewShopifyAPI
 
     sig { params(basename: String, abspath: String).returns(String) }
     def camelize(basename, abspath)
-      if basename =~ /\Ashopify_api(.*)/
+      if basename =~ /\Anew_shopify_api(.*)/
         "NewShopifyAPI" + super(Regexp.last_match(1), abspath)
       else
         super
