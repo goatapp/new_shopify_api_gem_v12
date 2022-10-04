@@ -19,5 +19,5 @@ require_relative "new_shopify_api/admin_versions"
 
 loader = Zeitwerk::Loader.for_gem
 loader.inflector = NewShopifyAPI::Inflector.new(__FILE__)
-loader.ignore("#{__dir__}/shopify_api/rest/resources")
+loader.ignore("#{__dir__}/new_shopify_api/rest/resources")
 loader.setup
