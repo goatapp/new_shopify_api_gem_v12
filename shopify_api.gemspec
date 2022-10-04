@@ -4,7 +4,7 @@ $LOAD_PATH.push(File.expand_path("../lib", __FILE__))
 require "shopify_api/version"
 
 Gem::Specification.new do |s|
-  s.name = "shopify_api"
+  s.name = "new_shopify_api"
   s.version = NewShopifyAPI::VERSION
   s.author = "Shopify"
 
