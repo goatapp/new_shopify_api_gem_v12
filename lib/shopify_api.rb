@@ -14,8 +14,8 @@ require "zeitwerk"
 require "jwt"
 require "concurrent"
 
-require_relative "shopify_api/inflector"
-require_relative "shopify_api/admin_versions"
+require_relative "new_shopify_api/inflector"
+require_relative "new_shopify_api/admin_versions"
 
 loader = Zeitwerk::Loader.for_gem
 loader.inflector = NewShopifyAPI::Inflector.new(__FILE__)
