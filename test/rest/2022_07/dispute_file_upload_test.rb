@@ -18,15 +18,15 @@ class DisputeFileUpload202207Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-07")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class DisputeFileUpload202207Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"dispute_file_upload" => {"id" => 799719588, "shop_id" => 220006451, "file_size" => 34509, "file_type" => "application/pdf", "original_filename" => "test.pdf", "filename" => "fe287b11-cd9e-4281-bed6-7039adf27e71.pdf", "created_at" => "2022-06-07T12:06:05-04:00", "updated_at" => "2022-06-07T12:06:05-04:00", "dispute_evidence_id" => 819974671, "dispute_evidence_type" => "uncategorized_file", "url" => "https://storage.googleapis.com/shopify-gcs-test/s/files/1/0002/2000/6451/payments_file_uploads/fe287b11-cd9e-4281-bed6-7039adf27e71.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=shopify-core-gcs-test%40shopify-tiers.iam.gserviceaccount.com%2F20200912%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=2022-06-07T16:06:06Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&response-content-disposition=&X-Goog-Signature=87811646776a232917997f6a4595871d9123629da45d35b2b915e7210eececff55a58147e79ac636861617cc21b5a2f\n                    6e5ea6547d9a20e9503e64caca84c9043ecccbf27d20142118017c60d2418edb7896c53eb466335fca\n                    9153d8d73c15645962eace819a3588301d55bcbc5b4ecf2225561de914b104e2069daa400e741a59a\n                    306d094f7b147c0ae2215f8203e4ce20a907c983a2e4be074c584725bd1c9e399f633499531160dac25\n                    b34054527795ef5ea48a4ac1d392585d4bc0976d62cab57e18d33547c9110599f39368983e4c88275790\n                    0bac1eddcb41b87d4d26269bfe01b0161ef0a81088a0e4d6596380f4d3d37e4e72a8c5fefc6bc07551efb59"}}), headers: {})
 
-    dispute_file_upload = ShopifyAPI::DisputeFileUpload.new
+    dispute_file_upload = NewShopifyAPI::DisputeFileUpload.new
     dispute_file_upload.dispute_id = 598735659
     dispute_file_upload.document_type = "uncategorized_file"
     dispute_file_upload.filename = "test.pdf"
@@ -62,7 +62,7 @@ class DisputeFileUpload202207Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({}), headers: {})
 
-    ShopifyAPI::DisputeFileUpload.delete(
+    NewShopifyAPI::DisputeFileUpload.delete(
       dispute_id: 598735659,
       id: 799719586,
     )

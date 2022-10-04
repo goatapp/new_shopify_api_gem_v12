@@ -18,15 +18,15 @@ class Report202210Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-10")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"reports" => [{"id" => 752357116, "name" => "Custom App Report 2", "shopify_ql" => "SHOW total_sales BY order_id FROM sales ORDER BY total_sales", "updated_at" => "2022-10-03T12:44:45-04:00", "category" => "custom_app_reports"}, {"id" => 517154478, "name" => "Wholesale Sales Report", "shopify_ql" => "SHOW total_sales BY order_id FROM sales WHERE api_client_id == 123 SINCE -1m UNTIL today", "updated_at" => "2017-04-10T16:33:22-04:00", "category" => "custom_app_reports"}]}), headers: {})
 
-    ShopifyAPI::Report.all
+    NewShopifyAPI::Report.all
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-10/reports.json")
   end
@@ -56,7 +56,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"reports" => [{"id" => 752357116, "name" => "Custom App Report 2", "shopify_ql" => "SHOW total_sales BY order_id FROM sales ORDER BY total_sales", "updated_at" => "2022-10-03T12:44:45-04:00", "category" => "custom_app_reports"}, {"id" => 517154478, "name" => "Wholesale Sales Report", "shopify_ql" => "SHOW total_sales BY order_id FROM sales WHERE api_client_id == 123 SINCE -1m UNTIL today", "updated_at" => "2017-04-10T16:33:22-04:00", "category" => "custom_app_reports"}]}), headers: {})
 
-    ShopifyAPI::Report.all(
+    NewShopifyAPI::Report.all(
       updated_at_min: "2005-07-31 15:57:11 EDT -04:00",
     )
 
@@ -74,7 +74,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"reports" => [{"id" => 517154478, "name" => "Wholesale Sales Report", "shopify_ql" => "SHOW total_sales BY order_id FROM sales WHERE api_client_id == 123 SINCE -1m UNTIL today", "updated_at" => "2017-04-10T16:33:22-04:00", "category" => "custom_app_reports"}]}), headers: {})
 
-    ShopifyAPI::Report.all(
+    NewShopifyAPI::Report.all(
       ids: "517154478",
     )
 
@@ -92,7 +92,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"reports" => [{"id" => 517154478, "name" => "Wholesale Sales Report", "shopify_ql" => "SHOW total_sales BY order_id FROM sales WHERE api_client_id == 123 SINCE -1m UNTIL today", "updated_at" => "2017-04-10T16:33:22-04:00", "category" => "custom_app_reports"}, {"id" => 752357116, "name" => "Custom App Report 2", "shopify_ql" => "SHOW total_sales BY order_id FROM sales ORDER BY total_sales", "updated_at" => "2022-10-03T12:44:45-04:00", "category" => "custom_app_reports"}]}), headers: {})
 
-    ShopifyAPI::Report.all(
+    NewShopifyAPI::Report.all(
       since_id: "123",
     )
 
@@ -110,7 +110,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"reports" => [{"id" => 752357116, "shopify_ql" => "SHOW total_sales BY order_id FROM sales ORDER BY total_sales"}, {"id" => 517154478, "shopify_ql" => "SHOW total_sales BY order_id FROM sales WHERE api_client_id == 123 SINCE -1m UNTIL today"}]}), headers: {})
 
-    ShopifyAPI::Report.all(
+    NewShopifyAPI::Report.all(
       fields: "id,shopify_ql",
     )
 
@@ -128,7 +128,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"report" => {"id" => 1016888664, "name" => "A new app report", "shopify_ql" => "SHOW total_sales BY order_id FROM sales SINCE -1m UNTIL today ORDER BY total_sales", "updated_at" => "2022-10-03T12:53:33-04:00", "category" => "custom_app_reports"}}), headers: {})
 
-    report = ShopifyAPI::Report.new
+    report = NewShopifyAPI::Report.new
     report.name = "A new app report"
     report.shopify_ql = "SHOW total_sales BY order_id FROM sales SINCE -1m UNTIL today ORDER BY total_sales"
     report.save
@@ -147,7 +147,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"report" => {"id" => 517154478, "name" => "Wholesale Sales Report", "shopify_ql" => "SHOW total_sales BY order_id FROM sales WHERE api_client_id == 123 SINCE -1m UNTIL today", "updated_at" => "2017-04-10T16:33:22-04:00", "category" => "custom_app_reports"}}), headers: {})
 
-    ShopifyAPI::Report.find(
+    NewShopifyAPI::Report.find(
       id: 517154478,
     )
 
@@ -165,7 +165,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"report" => {"id" => 517154478, "shopify_ql" => "SHOW total_sales BY order_id FROM sales WHERE api_client_id == 123 SINCE -1m UNTIL today"}}), headers: {})
 
-    ShopifyAPI::Report.find(
+    NewShopifyAPI::Report.find(
       id: 517154478,
       fields: "id,shopify_ql",
     )
@@ -184,7 +184,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"report" => {"name" => "Changed Report Name", "shopify_ql" => "SHOW total_sales BY order_id FROM sales SINCE -12m UNTIL today ORDER BY total_sales", "id" => 517154478, "updated_at" => "2022-10-03T12:53:27-04:00", "category" => "custom_app_reports"}}), headers: {})
 
-    report = ShopifyAPI::Report.new
+    report = NewShopifyAPI::Report.new
     report.id = 517154478
     report.name = "Changed Report Name"
     report.shopify_ql = "SHOW total_sales BY order_id FROM sales SINCE -12m UNTIL today ORDER BY total_sales"
@@ -204,7 +204,7 @@ class Report202210Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({}), headers: {})
 
-    ShopifyAPI::Report.delete(
+    NewShopifyAPI::Report.delete(
       id: 517154478,
     )
 

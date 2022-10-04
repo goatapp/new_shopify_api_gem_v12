@@ -4,7 +4,7 @@
 require "active_support/inflector"
 require "hash_diff"
 
-module ShopifyAPI
+module NewShopifyAPI
   module Rest
     class Base
       extend T::Sig
@@ -36,9 +36,9 @@ module ShopifyAPI
         @forced_nils = T.let({}, T::Hash[String, T::Boolean])
         @aliased_properties = T.let({}, T::Hash[String, String])
 
-        session ||= ShopifyAPI::Context.active_session
+        session ||= NewShopifyAPI::Context.active_session
 
-        client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+        client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
         @session = T.let(T.must(session), Auth::Session)
         @client = T.let(client, Clients::Rest::Admin)
@@ -69,9 +69,9 @@ module ShopifyAPI
           ).returns(T::Array[Base])
         end
         def base_find(session: nil, ids: {}, params: {})
-          session ||= ShopifyAPI::Context.active_session
+          session ||= NewShopifyAPI::Context.active_session
 
-          client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+          client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
           path = T.must(get_path(http_method: :get, operation: :get, ids: ids))
           response = client.get(path: path, query: params.compact)
@@ -181,7 +181,7 @@ module ShopifyAPI
           ).returns(Clients::HttpResponse)
         end
         def request(http_method:, operation:, session:, ids: {}, params: {}, body: nil, entity: nil)
-          client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+          client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
           path = get_path(http_method: http_method, operation: operation.to_sym, ids: ids)
 
@@ -314,7 +314,7 @@ module ShopifyAPI
           path: T.must(self.class.get_path(http_method: :delete, operation: :delete, entity: self)),
           query: params.compact,
         )
-      rescue ShopifyAPI::Errors::HttpResponseError => e
+      rescue NewShopifyAPI::Errors::HttpResponseError => e
         @errors.errors << e
         raise
       end
@@ -343,7 +343,7 @@ module ShopifyAPI
             session: @session, instance: self
           )
         end
-      rescue ShopifyAPI::Errors::HttpResponseError => e
+      rescue NewShopifyAPI::Errors::HttpResponseError => e
         @errors.errors << e
         raise
       end
@@ -371,7 +371,7 @@ module ShopifyAPI
 
       sig do
         params(
-          element: T.nilable(T.any(T::Hash[String, T.untyped], ShopifyAPI::Rest::Base)),
+          element: T.nilable(T.any(T::Hash[String, T.untyped], NewShopifyAPI::Rest::Base)),
           attribute_class: Class,
           saving: T::Boolean,
         ).returns(T.nilable(T::Hash[String, T.untyped]))

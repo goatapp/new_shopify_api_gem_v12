@@ -3,7 +3,7 @@
 
 require_relative "../test_helper"
 
-module ShopifyAPITest
+module NewShopifyAPITest
   module Auth
     class JwtPayloadTest < Test::Unit::TestCase
       def setup
@@ -11,7 +11,7 @@ module ShopifyAPITest
         @jwt_payload = {
           iss: "https://test-shop.myshopify.io/admin",
           dest: "https://test-shop.myshopify.io",
-          aud: ShopifyAPI::Context.api_key,
+          aud: NewShopifyAPI::Context.api_key,
           sub: "1",
           exp: (Time.now + 10).to_i,
           nbf: 1234,
@@ -22,8 +22,8 @@ module ShopifyAPITest
       end
 
       def test_decode_jwt_payload_succeeds_with_valid_token
-        jwt_token = JWT.encode(@jwt_payload, ShopifyAPI::Context.api_secret_key, "HS256")
-        decoded = ShopifyAPI::Auth::JwtPayload.new(jwt_token)
+        jwt_token = JWT.encode(@jwt_payload, NewShopifyAPI::Context.api_secret_key, "HS256")
+        decoded = NewShopifyAPI::Auth::JwtPayload.new(jwt_token)
         assert_equal(@jwt_payload,
           {
             iss: decoded.iss,
@@ -42,8 +42,8 @@ module ShopifyAPITest
         payload = @jwt_payload.dup
         payload[:iss] = "https://test-shop.other.spin.dev/admin"
         payload[:dest] = "https://test-shop.other.spin.dev"
-        jwt_token = JWT.encode(payload, ShopifyAPI::Context.api_secret_key, "HS256")
-        decoded = ShopifyAPI::Auth::JwtPayload.new(jwt_token)
+        jwt_token = JWT.encode(payload, NewShopifyAPI::Context.api_secret_key, "HS256")
+        decoded = NewShopifyAPI::Auth::JwtPayload.new(jwt_token)
         assert_equal(payload,
           {
             iss: decoded.iss,
@@ -60,36 +60,36 @@ module ShopifyAPITest
 
       def test_decode_jwt_payload_fails_with_wrong_key
         jwt_token = JWT.encode(@jwt_payload, "Wrong", "HS256")
-        assert_raises(ShopifyAPI::Errors::InvalidJwtTokenError) do
-          ShopifyAPI::Auth::JwtPayload.new(jwt_token)
+        assert_raises(NewShopifyAPI::Errors::InvalidJwtTokenError) do
+          NewShopifyAPI::Auth::JwtPayload.new(jwt_token)
         end
       end
 
       def test_decode_jwt_payload_fails_with_expired_token
         payload = @jwt_payload.dup
         payload[:exp] = (Time.now - 40).to_i
-        jwt_token = JWT.encode(payload, ShopifyAPI::Context.api_secret_key, "HS256")
-        assert_raises(ShopifyAPI::Errors::InvalidJwtTokenError) do
-          ShopifyAPI::Auth::JwtPayload.new(jwt_token)
+        jwt_token = JWT.encode(payload, NewShopifyAPI::Context.api_secret_key, "HS256")
+        assert_raises(NewShopifyAPI::Errors::InvalidJwtTokenError) do
+          NewShopifyAPI::Auth::JwtPayload.new(jwt_token)
         end
       end
 
       def test_decode_jwt_payload_fails_if_not_activated_yet
         payload = @jwt_payload.dup
         payload[:nbf] = (Time.now + 10).to_i
-        jwt_token = JWT.encode(payload, ShopifyAPI::Context.api_secret_key, "HS256")
-        assert_raises(ShopifyAPI::Errors::InvalidJwtTokenError) do
-          ShopifyAPI::Auth::JwtPayload.new(jwt_token)
+        jwt_token = JWT.encode(payload, NewShopifyAPI::Context.api_secret_key, "HS256")
+        assert_raises(NewShopifyAPI::Errors::InvalidJwtTokenError) do
+          NewShopifyAPI::Auth::JwtPayload.new(jwt_token)
         end
       end
 
       def test_decode_jwt_payload_fails_with_invalid_api_key
-        jwt_token = JWT.encode(@jwt_payload, ShopifyAPI::Context.api_secret_key, "HS256")
+        jwt_token = JWT.encode(@jwt_payload, NewShopifyAPI::Context.api_secret_key, "HS256")
 
         modify_context(api_key: "invalid")
 
-        assert_raises(ShopifyAPI::Errors::InvalidJwtTokenError) do
-          ShopifyAPI::Auth::JwtPayload.new(jwt_token)
+        assert_raises(NewShopifyAPI::Errors::InvalidJwtTokenError) do
+          NewShopifyAPI::Auth::JwtPayload.new(jwt_token)
         end
       end
     end

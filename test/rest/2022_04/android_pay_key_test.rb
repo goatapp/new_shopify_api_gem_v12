@@ -18,15 +18,15 @@ class AndroidPayKey202204Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-04")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class AndroidPayKey202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"android_pay_key" => {"id" => 964811895, "public_key" => "BPI5no5liIrAC3knvJnxSoMW09D0KwbJOnv+TaAmd3Fur3wYlD85yFaJABZC\n1qb/14GtM+616y8SrKwaVOSu4U8=\n"}}), headers: {})
 
-    android_pay_key = ShopifyAPI::AndroidPayKey.new
+    android_pay_key = NewShopifyAPI::AndroidPayKey.new
 
     android_pay_key.save
 
@@ -58,7 +58,7 @@ class AndroidPayKey202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"android_pay_key" => {"id" => 964811894, "public_key" => "BPI5no5liIrAC3knvJnxSoMW09D0KwbJOnv+TaAmd3Fur3wYlD85yFaJABZC\n1qb/14GtM+616y8SrKwaVOSu4U8=\n"}}), headers: {})
 
-    ShopifyAPI::AndroidPayKey.find(
+    NewShopifyAPI::AndroidPayKey.find(
       id: 964811894,
     )
 
@@ -76,7 +76,7 @@ class AndroidPayKey202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({}), headers: {})
 
-    ShopifyAPI::AndroidPayKey.delete(
+    NewShopifyAPI::AndroidPayKey.delete(
       id: 964811896,
     )
 

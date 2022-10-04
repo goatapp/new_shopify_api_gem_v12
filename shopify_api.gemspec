@@ -5,7 +5,7 @@ require "shopify_api/version"
 
 Gem::Specification.new do |s|
   s.name = "shopify_api"
-  s.version = ShopifyAPI::VERSION
+  s.version = NewShopifyAPI::VERSION
   s.author = "Shopify"
 
   s.summary = "The gem for accessing the Shopify API"

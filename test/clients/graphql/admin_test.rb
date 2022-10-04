@@ -3,7 +3,7 @@
 
 require_relative "../../test_helper.rb"
 
-module ShopifyAPI
+module NewShopifyAPI
   module Clients
     module Graphql
       class AdminTest < Test::Unit::TestCase
@@ -11,9 +11,9 @@ module ShopifyAPI
 
         def setup
           super
-          @session = ShopifyAPI::Auth::Session.new(shop: "test-shop.myshopify.com",
+          @session = NewShopifyAPI::Auth::Session.new(shop: "test-shop.myshopify.com",
             access_token: SecureRandom.alphanumeric(10))
-          @client = ShopifyAPI::Clients::Graphql::Admin.new(session: @session)
+          @client = NewShopifyAPI::Clients::Graphql::Admin.new(session: @session)
           @path = "admin/api"
           @expected_headers = TestHelpers::Constants::DEFAULT_CLIENT_HEADERS.merge({
             "X-Shopify-Access-Token": @session.access_token,

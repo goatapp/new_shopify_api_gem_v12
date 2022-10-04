@@ -18,15 +18,15 @@ class ApplePayCertificate202204Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-04")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class ApplePayCertificate202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"apple_pay_certificate" => {"id" => 1068938274, "status" => "issuing", "merchant_id" => nil}}), headers: {})
 
-    apple_pay_certificate = ShopifyAPI::ApplePayCertificate.new
+    apple_pay_certificate = NewShopifyAPI::ApplePayCertificate.new
 
     apple_pay_certificate.save
 
@@ -58,7 +58,7 @@ class ApplePayCertificate202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"apple_pay_certificate" => {"id" => 1068938276, "status" => "csr", "merchant_id" => nil}}), headers: {})
 
-    ShopifyAPI::ApplePayCertificate.find(
+    NewShopifyAPI::ApplePayCertificate.find(
       id: 1068938276,
     )
 
@@ -76,7 +76,7 @@ class ApplePayCertificate202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"apple_pay_certificate" => {"id" => 1068938277, "status" => "completed", "merchant_id" => "merchant.something"}}), headers: {})
 
-    apple_pay_certificate = ShopifyAPI::ApplePayCertificate.new
+    apple_pay_certificate = NewShopifyAPI::ApplePayCertificate.new
     apple_pay_certificate.id = 1068938277
     apple_pay_certificate.status = "completed"
     apple_pay_certificate.merchant_id = "merchant.something"
@@ -97,7 +97,7 @@ class ApplePayCertificate202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({}), headers: {})
 
-    ShopifyAPI::ApplePayCertificate.delete(
+    NewShopifyAPI::ApplePayCertificate.delete(
       id: 1068938278,
     )
 
@@ -115,7 +115,7 @@ class ApplePayCertificate202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"csr" => {"key" => "YXBwbGUtcGF5LWNzcg==\n"}}), headers: {})
 
-    ShopifyAPI::ApplePayCertificate.csr(
+    NewShopifyAPI::ApplePayCertificate.csr(
       id: 1068938275,
     )
 

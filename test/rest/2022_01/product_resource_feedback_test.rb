@@ -18,15 +18,15 @@ class ProductResourceFeedback202201Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-01")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class ProductResourceFeedback202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"resource_feedback" => {"created_at" => "2022-10-03T13:22:08-04:00", "updated_at" => "2022-10-03T13:22:08-04:00", "resource_id" => 632910392, "resource_type" => "Product", "resource_updated_at" => "2022-10-03T13:07:13-04:00", "messages" => ["Needs at least one image."], "feedback_generated_at" => "2022-10-03T13:22:08-04:00", "state" => "requires_action"}}), headers: {})
 
-    product_resource_feedback = ShopifyAPI::ProductResourceFeedback.new
+    product_resource_feedback = NewShopifyAPI::ProductResourceFeedback.new
     product_resource_feedback.product_id = 632910392
     product_resource_feedback.state = "requires_action"
     product_resource_feedback.messages = [
@@ -64,7 +64,7 @@ class ProductResourceFeedback202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"resource_feedback" => {"created_at" => "2022-10-03T13:22:10-04:00", "updated_at" => "2022-10-03T13:22:10-04:00", "resource_id" => 632910392, "resource_type" => "Product", "resource_updated_at" => "2022-10-03T13:07:13-04:00", "messages" => [], "feedback_generated_at" => "2022-10-03T13:22:09-04:00", "state" => "success"}}), headers: {})
 
-    product_resource_feedback = ShopifyAPI::ProductResourceFeedback.new
+    product_resource_feedback = NewShopifyAPI::ProductResourceFeedback.new
     product_resource_feedback.product_id = 632910392
     product_resource_feedback.state = "success"
     product_resource_feedback.resource_updated_at = "2022-10-03T13:07:13-04:00"
@@ -85,7 +85,7 @@ class ProductResourceFeedback202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"resource_feedback" => [{"created_at" => "2022-10-03T13:22:11-04:00", "updated_at" => "2022-10-03T13:22:11-04:00", "resource_id" => 632910392, "resource_type" => "Product", "resource_updated_at" => "2022-10-03T13:07:13-04:00", "messages" => ["Needs at least one image."], "feedback_generated_at" => "2022-10-03T12:22:11-04:00", "state" => "requires_action"}]}), headers: {})
 
-    ShopifyAPI::ProductResourceFeedback.all(
+    NewShopifyAPI::ProductResourceFeedback.all(
       product_id: 632910392,
     )
 

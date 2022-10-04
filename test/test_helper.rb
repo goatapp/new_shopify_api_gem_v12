@@ -22,7 +22,7 @@ module Test
 
       sig { void }
       def setup
-        ShopifyAPI::Context.setup(
+        NewShopifyAPI::Context.setup(
           api_key: "API_KEY",
           api_secret_key: "API_SECRET_KEY",
           api_version: "unstable",
@@ -45,7 +45,7 @@ module Test
           scope: T.nilable(T.any(T::Array[String], String)),
           is_private: T.nilable(T::Boolean),
           is_embedded: T.nilable(T::Boolean),
-          session_storage: T.nilable(ShopifyAPI::Auth::SessionStorage),
+          session_storage: T.nilable(NewShopifyAPI::Auth::SessionStorage),
           logger: T.nilable(Logger),
           private_shop: T.nilable(String),
           user_agent_prefix: T.nilable(String),
@@ -66,19 +66,19 @@ module Test
         user_agent_prefix: nil,
         old_api_secret_key: nil
       )
-        ShopifyAPI::Context.setup(
-          api_key: api_key ? api_key : ShopifyAPI::Context.api_key,
-          api_secret_key: api_secret_key ? api_secret_key : ShopifyAPI::Context.api_secret_key,
-          api_version: api_version ? api_version : ShopifyAPI::Context.api_version,
-          host_name: host_name ? host_name : ShopifyAPI::Context.host_name,
-          scope: scope ? scope : ShopifyAPI::Context.scope.to_s,
-          is_private: !is_private.nil? ? is_private : ShopifyAPI::Context.private?,
-          is_embedded: !is_embedded.nil? ? is_embedded : ShopifyAPI::Context.embedded?,
-          session_storage: session_storage ? session_storage : ShopifyAPI::Context.session_storage,
-          logger: logger ? logger : ShopifyAPI::Context.logger,
-          private_shop: private_shop != "do-not-set" ? private_shop : ShopifyAPI::Context.private_shop,
-          user_agent_prefix: user_agent_prefix ? user_agent_prefix : ShopifyAPI::Context.user_agent_prefix,
-          old_api_secret_key: old_api_secret_key ? old_api_secret_key : ShopifyAPI::Context.old_api_secret_key,
+        NewShopifyAPI::Context.setup(
+          api_key: api_key ? api_key : NewShopifyAPI::Context.api_key,
+          api_secret_key: api_secret_key ? api_secret_key : NewShopifyAPI::Context.api_secret_key,
+          api_version: api_version ? api_version : NewShopifyAPI::Context.api_version,
+          host_name: host_name ? host_name : NewShopifyAPI::Context.host_name,
+          scope: scope ? scope : NewShopifyAPI::Context.scope.to_s,
+          is_private: !is_private.nil? ? is_private : NewShopifyAPI::Context.private?,
+          is_embedded: !is_embedded.nil? ? is_embedded : NewShopifyAPI::Context.embedded?,
+          session_storage: session_storage ? session_storage : NewShopifyAPI::Context.session_storage,
+          logger: logger ? logger : NewShopifyAPI::Context.logger,
+          private_shop: private_shop != "do-not-set" ? private_shop : NewShopifyAPI::Context.private_shop,
+          user_agent_prefix: user_agent_prefix ? user_agent_prefix : NewShopifyAPI::Context.user_agent_prefix,
+          old_api_secret_key: old_api_secret_key ? old_api_secret_key : NewShopifyAPI::Context.old_api_secret_key,
         )
       end
     end

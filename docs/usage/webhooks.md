@@ -4,11 +4,11 @@ The `shopify_api` gem provides webhook functionality to make it easy to both sub
 
 ## Create a Webhook Handler
 
-If you want to register for an http webhook you need to implement a webhook handler which the `shopify_api` gem can use to determine how to process your webhook. You can make multiple implementations (one per topic) or you can make one implementation capable of handling all the topics you want to subscribe to. To do this simply make a module or class that includes or extends `ShopifyAPI::Webhooks::WebhookHandler` and implement the handle method which accepts the following named parameters: topic: `String`, shop: `String`, and body: `Hash[String, untyped]`. An example implementation is shown below:
+If you want to register for an http webhook you need to implement a webhook handler which the `shopify_api` gem can use to determine how to process your webhook. You can make multiple implementations (one per topic) or you can make one implementation capable of handling all the topics you want to subscribe to. To do this simply make a module or class that includes or extends `NewShopifyAPI::Webhooks::WebhookHandler` and implement the handle method which accepts the following named parameters: topic: `String`, shop: `String`, and body: `Hash[String, untyped]`. An example implementation is shown below:
 
 ```ruby
 module WebhookHandler 
-  include ShopifyAPI::Webhooks::Handler
+  include NewShopifyAPI::Webhooks::Handler
 
   class << self
     def handle(topic:, shop:, body:)
@@ -22,15 +22,15 @@ end
 
 ## Add to Webhook Registry
 
-The next step is to add all the webhooks you would like to subscribe to for any shop to the webhook registry. To do this you can call `ShopifyAPI::Webhooks::Registry.add_registration` for each webhook you would like to handle. `add_registration` accepts a topic string, a delivery_method symbol (currently supporting `:http`, `:event_bridge`, and `:pub_sub`), a webhook path (the relative path for an http webhook) and a handler. This only needs to be done once when the app is started and we recommend doing this at the same time that you setup `ShopifyAPI::Context`. An example is shown below to register an http webhook:
+The next step is to add all the webhooks you would like to subscribe to for any shop to the webhook registry. To do this you can call `NewShopifyAPI::Webhooks::Registry.add_registration` for each webhook you would like to handle. `add_registration` accepts a topic string, a delivery_method symbol (currently supporting `:http`, `:event_bridge`, and `:pub_sub`), a webhook path (the relative path for an http webhook) and a handler. This only needs to be done once when the app is started and we recommend doing this at the same time that you setup `NewShopifyAPI::Context`. An example is shown below to register an http webhook:
 
 ```ruby
-registration = ShopifyAPI::Webhooks::Registry.add_registration(topic: "orders/create", delivery_method: :http, handler: WebhookHandler) 
+registration = NewShopifyAPI::Webhooks::Registry.add_registration(topic: "orders/create", delivery_method: :http, handler: WebhookHandler) 
 ```
 If you are only interested in particular fields, you can optionally filter the data sent by Shopify by specifying the `fields` parameter. Note that you will still receive a webhook request from Shopify every time the resource is updated, but only the specified fields will be sent:
 
 ```ruby
-registration = ShopifyAPI::Webhooks::Registry.add_registration(
+registration = NewShopifyAPI::Webhooks::Registry.add_registration(
   topic: "orders/create", 
   delivery_method: :http, 
   handler: WebhookHandler, 
@@ -38,7 +38,7 @@ registration = ShopifyAPI::Webhooks::Registry.add_registration(
 ) 
 ```
 
-**Note**: The webhooks you register with Shopify are saved in the Shopify platform, but the local `ShopifyAPI::Webhooks::Registry` needs to be reloaded whenever your server restarts.
+**Note**: The webhooks you register with Shopify are saved in the Shopify platform, but the local `NewShopifyAPI::Webhooks::Registry` needs to be reloaded whenever your server restarts.
 
 ### EventBridge and PubSub Webhooks
 
@@ -63,34 +63,34 @@ This can be done in one of two ways:
 
 If you would like to register to receive webhooks for all topics you have added to the registry for a specific shop you can simply call:
 ```ruby
-ShopifyAPI::Webhooks::Registry.register_all(session: shop_session)
+NewShopifyAPI::Webhooks::Registry.register_all(session: shop_session)
 ```
 
-This will return an Array of `ShopifyAPI::Webhooks::RegisterResult`s that have fields `topic`, `success`, and `body` which can be used to see which webhooks were successfully registered.
+This will return an Array of `NewShopifyAPI::Webhooks::RegisterResult`s that have fields `topic`, `success`, and `body` which can be used to see which webhooks were successfully registered.
 
 Or if you would like to register to receive webhooks for specific topics that have been added to the registry for a specific shop you can simply call `register` for any needed topics:
 ```ruby
-ShopifyAPI::Webhooks::Registry.register(topic: "<specific-topic>", session: shop_session)
+NewShopifyAPI::Webhooks::Registry.register(topic: "<specific-topic>", session: shop_session)
 ```
 
-This will return a single `ShopifyAPI::Webhooks::RegisterResult`.
+This will return a single `NewShopifyAPI::Webhooks::RegisterResult`.
 
 ## Unregister a Webhook 
 
 To unregister a topic from a shop you can simply call:
 ```ruby
-ShopifyAPI::Webhooks::Registry.unregister(topic: "orders/create", session: shop_session)
+NewShopifyAPI::Webhooks::Registry.unregister(topic: "orders/create", session: shop_session)
 ```
 
 ## Process a Webhook
 
-To process an http webhook, you need to listen on the route(s) you provided during the Webhook registration process, then when the route is hit construct a `ShopifyAPI::Webhooks::Request` and call `ShopifyAPI::Webhooks::Registry.process`. This will verify the request did indeed come from Shopify and then call the specified handler for that webhook. An example in Rails is shown below:
+To process an http webhook, you need to listen on the route(s) you provided during the Webhook registration process, then when the route is hit construct a `NewShopifyAPI::Webhooks::Request` and call `NewShopifyAPI::Webhooks::Registry.process`. This will verify the request did indeed come from Shopify and then call the specified handler for that webhook. An example in Rails is shown below:
 
 ```ruby
 class WebhookController < ApplicationController
   def webhook
-    ShopifyAPI::Webhooks::Registry.process(
-      ShopifyAPI::Webhooks::WebhookRequest.new(raw_body: request.raw_post, headers: request.headers.to_h)
+    NewShopifyAPI::Webhooks::Registry.process(
+      NewShopifyAPI::Webhooks::WebhookRequest.new(raw_body: request.raw_post, headers: request.headers.to_h)
     )
     render json: {success: true}.to_json
   end

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module TestHelpers
-  class FakeResourceWithCustomPrefix < ShopifyAPI::Rest::Base
+  class FakeResourceWithCustomPrefix < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
@@ -22,7 +22,7 @@ module TestHelpers
     sig { returns(T.nilable(String)) }
     attr_reader :attribute
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
     def initialize(session: nil)
       super(session: session)
       @id = T.let(nil, T.nilable(Integer))
@@ -31,7 +31,7 @@ module TestHelpers
 
     class << self
       sig do
-        params(id: T.any(Integer, String), session: ShopifyAPI::Auth::Session, param: T.untyped,
+        params(id: T.any(Integer, String), session: NewShopifyAPI::Auth::Session, param: T.untyped,
           kwargs: T.untyped).returns(FakeResourceWithCustomPrefix)
       end
       def find(id:, session:, param: nil, **kwargs)
@@ -42,7 +42,7 @@ module TestHelpers
       end
 
       sig do
-        params(session: ShopifyAPI::Auth::Session, kwargs: T.untyped).returns(T::Array[FakeResourceWithCustomPrefix])
+        params(session: NewShopifyAPI::Auth::Session, kwargs: T.untyped).returns(T::Array[FakeResourceWithCustomPrefix])
       end
       def all(session:, **kwargs)
         T.cast(

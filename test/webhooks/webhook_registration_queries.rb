@@ -1,7 +1,7 @@
 # typed: false
 # frozen_string_literal: true
 
-module ShopifyAPITest
+module NewShopifyAPITest
   module Webhooks
     module RegistryTestQueries
       def queries

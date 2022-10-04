@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module Webhooks
     class Registry
       @registry = T.let({}, T::Hash[String, Registration])

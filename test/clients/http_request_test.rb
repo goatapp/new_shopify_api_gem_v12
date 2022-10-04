@@ -3,19 +3,19 @@
 
 require_relative "../test_helper.rb"
 
-module ShopifyAPITest
+module NewShopifyAPITest
   module Clients
     class HttpRequestTest < Test::Unit::TestCase
       def test_valid_request
-        ShopifyAPI::Clients::HttpRequest.new(
+        NewShopifyAPI::Clients::HttpRequest.new(
           http_method: :get,
           path: "path",
         ).verify
       end
 
       def test_invalid_http_method
-        assert_raises(ShopifyAPI::Errors::InvalidHttpRequestError) do
-          ShopifyAPI::Clients::HttpRequest.new(
+        assert_raises(NewShopifyAPI::Errors::InvalidHttpRequestError) do
+          NewShopifyAPI::Clients::HttpRequest.new(
             http_method: :bad,
             path: "path",
           ).verify
@@ -23,8 +23,8 @@ module ShopifyAPITest
       end
 
       def test_body_with_no_type
-        assert_raises(ShopifyAPI::Errors::InvalidHttpRequestError) do
-          ShopifyAPI::Clients::HttpRequest.new(
+        assert_raises(NewShopifyAPI::Errors::InvalidHttpRequestError) do
+          NewShopifyAPI::Clients::HttpRequest.new(
             http_method: :get,
             path: "path",
             body: {},
@@ -33,8 +33,8 @@ module ShopifyAPITest
       end
 
       def test_post_no_body
-        assert_raises(ShopifyAPI::Errors::InvalidHttpRequestError) do
-          ShopifyAPI::Clients::HttpRequest.new(
+        assert_raises(NewShopifyAPI::Errors::InvalidHttpRequestError) do
+          NewShopifyAPI::Clients::HttpRequest.new(
             http_method: :post,
             path: "path",
           ).verify
@@ -42,8 +42,8 @@ module ShopifyAPITest
       end
 
       def test_put_no_body
-        assert_raises(ShopifyAPI::Errors::InvalidHttpRequestError) do
-          ShopifyAPI::Clients::HttpRequest.new(
+        assert_raises(NewShopifyAPI::Errors::InvalidHttpRequestError) do
+          NewShopifyAPI::Clients::HttpRequest.new(
             http_method: :put,
             path: "path",
           ).verify

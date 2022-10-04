@@ -5,15 +5,15 @@
 # This file is auto-generated. If you have an issue, please create a GitHub issue.                                     #
 ########################################################################################################################
 
-module ShopifyAPI
-  class Page < ShopifyAPI::Rest::Base
+module NewShopifyAPI
+  class Page < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
     @next_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
-    def initialize(session: ShopifyAPI::Context.active_session)
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
+    def initialize(session: NewShopifyAPI::Context.active_session)
       super(session: session)
 
       @admin_graphql_api_id = T.let(nil, T.nilable(String))
@@ -79,7 +79,7 @@ module ShopifyAPI
       def find(
         id:,
         fields: nil,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         result = base_find(
           session: session,
@@ -97,7 +97,7 @@ module ShopifyAPI
       end
       def delete(
         id:,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         request(
           http_method: :delete,
@@ -139,7 +139,7 @@ module ShopifyAPI
         published_at_max: nil,
         fields: nil,
         published_status: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         response = base_find(
@@ -174,7 +174,7 @@ module ShopifyAPI
         published_at_min: nil,
         published_at_max: nil,
         published_status: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         request(

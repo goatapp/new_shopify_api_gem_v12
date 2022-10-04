@@ -5,15 +5,15 @@
 # This file is auto-generated. If you have an issue, please create a GitHub issue.                                     #
 ########################################################################################################################
 
-module ShopifyAPI
-  class Payment < ShopifyAPI::Rest::Base
+module NewShopifyAPI
+  class Payment < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
     @next_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
-    def initialize(session: ShopifyAPI::Context.active_session)
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
+    def initialize(session: NewShopifyAPI::Context.active_session)
       super(session: session)
 
       @checkout = T.let(nil, T.nilable(Checkout))
@@ -63,7 +63,7 @@ module ShopifyAPI
       def find(
         id:,
         checkout_id: nil,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         result = base_find(
           session: session,
@@ -82,7 +82,7 @@ module ShopifyAPI
       end
       def all(
         checkout_id: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         response = base_find(
@@ -103,7 +103,7 @@ module ShopifyAPI
       end
       def count(
         checkout_id: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         request(

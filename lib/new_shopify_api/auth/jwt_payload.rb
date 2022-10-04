@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module Auth
     class JwtPayload
       extend T::Sig
@@ -18,7 +18,7 @@ module ShopifyAPI
       def initialize(token)
         payload_hash = begin
           decode_token(token, Context.api_secret_key)
-        rescue ShopifyAPI::Errors::InvalidJwtTokenError
+        rescue NewShopifyAPI::Errors::InvalidJwtTokenError
           raise unless Context.old_api_secret_key
 
           decode_token(token, T.must(Context.old_api_secret_key))
@@ -34,7 +34,7 @@ module ShopifyAPI
         @jti = T.let(payload_hash["jti"], String)
         @sid = T.let(payload_hash["sid"], String)
 
-        raise ShopifyAPI::Errors::InvalidJwtTokenError,
+        raise NewShopifyAPI::Errors::InvalidJwtTokenError,
           "Session token had invalid API key" unless @aud == Context.api_key
       end
 
@@ -47,7 +47,7 @@ module ShopifyAPI
       sig { params(shop: String).returns(T::Boolean) }
       def validate_shop(shop)
         Context.logger.warn(
-          "Deprecation notice: ShopifyAPI::Auth::JwtPayload.validate_shop no longer checks the given shop and always " \
+          "Deprecation notice: NewShopifyAPI::Auth::JwtPayload.validate_shop no longer checks the given shop and always " \
             "returns true. It will be removed in v11.",
         )
         true
@@ -76,7 +76,7 @@ module ShopifyAPI
         JWT.decode(token, api_secret_key, true,
           { exp_leeway: JWT_EXPIRATION_LEEWAY, algorithm: "HS256" })[0]
       rescue
-        raise ShopifyAPI::Errors::InvalidJwtTokenError, "Failed to parse session token '#{token}'"
+        raise NewShopifyAPI::Errors::InvalidJwtTokenError, "Failed to parse session token '#{token}'"
       end
     end
   end

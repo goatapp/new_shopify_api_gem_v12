@@ -4,7 +4,7 @@
 require_relative "../test_helper.rb"
 require_relative "./webhook_registration_queries.rb"
 
-module ShopifyAPITest
+module NewShopifyAPITest
   module Webhooks
     class RegistryTest < Test::Unit::TestCase
       include RegistryTestQueries
@@ -15,7 +15,7 @@ module ShopifyAPITest
 
         hmac = OpenSSL::HMAC.digest(
           OpenSSL::Digest.new("sha256"),
-          ShopifyAPI::Context.api_secret_key,
+          NewShopifyAPI::Context.api_secret_key,
           "{}",
         )
 
@@ -25,14 +25,14 @@ module ShopifyAPITest
           "x-shopify-shop-domain" => @shop,
         }
 
-        @webhook_request = ShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: @headers)
-        @session = ShopifyAPI::Auth::Session.new(shop: ShopifyAPI::Context.host_name, access_token: "access_token")
-        @url = "https://#{ShopifyAPI::Context.host_name}/admin/api/#{ShopifyAPI::Context.api_version}/graphql.json"
+        @webhook_request = NewShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: @headers)
+        @session = NewShopifyAPI::Auth::Session.new(shop: NewShopifyAPI::Context.host_name, access_token: "access_token")
+        @url = "https://#{NewShopifyAPI::Context.host_name}/admin/api/#{NewShopifyAPI::Context.api_version}/graphql.json"
       end
 
       def test_add_http_registration_without_handler
-        assert_raises(ShopifyAPI::Errors::InvalidWebhookRegistrationError) do
-          ShopifyAPI::Webhooks::Registry.add_registration(topic: @topic, path: "path", delivery_method: :http)
+        assert_raises(NewShopifyAPI::Errors::InvalidWebhookRegistrationError) do
+          NewShopifyAPI::Webhooks::Registry.add_registration(topic: @topic, path: "path", delivery_method: :http)
         end
       end
 
@@ -48,11 +48,11 @@ module ShopifyAPITest
           end,
         )
 
-        ShopifyAPI::Webhooks::Registry.add_registration(
+        NewShopifyAPI::Webhooks::Registry.add_registration(
           topic: @topic, path: "path", delivery_method: :http, handler: handler,
         )
 
-        ShopifyAPI::Webhooks::Registry.process(@webhook_request)
+        NewShopifyAPI::Webhooks::Registry.process(@webhook_request)
 
         assert(handler_called)
       end
@@ -64,16 +64,16 @@ module ShopifyAPITest
           "x-shopify-shop-domain" => "shop.myshopify.com",
         }
 
-        assert_raises(ShopifyAPI::Errors::InvalidWebhookError) do
-          ShopifyAPI::Webhooks::Registry.process(ShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: headers))
+        assert_raises(NewShopifyAPI::Errors::InvalidWebhookError) do
+          NewShopifyAPI::Webhooks::Registry.process(NewShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: headers))
         end
       end
 
       def test_process_no_handler
         @headers["x-shopify-topic"] = "non_registered_topic"
 
-        assert_raises(ShopifyAPI::Errors::NoWebhookHandler) do
-          ShopifyAPI::Webhooks::Registry.process(ShopifyAPI::Webhooks::Request.new(raw_body: "{}",
+        assert_raises(NewShopifyAPI::Errors::NoWebhookHandler) do
+          NewShopifyAPI::Webhooks::Registry.process(NewShopifyAPI::Webhooks::Request.new(raw_body: "{}",
             headers: @headers))
         end
       end
@@ -123,8 +123,8 @@ module ShopifyAPITest
       end
 
       def test_register_topic_not_not_registry
-        assert_raises(ShopifyAPI::Errors::InvalidWebhookRegistrationError) do
-          ShopifyAPI::Webhooks::Registry.register(topic: "not-registered", session: @session)
+        assert_raises(NewShopifyAPI::Errors::InvalidWebhookRegistrationError) do
+          NewShopifyAPI::Webhooks::Registry.register(topic: "not-registered", session: @session)
         end
       end
 
@@ -137,7 +137,7 @@ module ShopifyAPITest
           .with(body: JSON.dump({ query: queries[:delete_query], variables: nil }))
           .to_return({ status: 200, body: JSON.dump(queries[:delete_response]) })
 
-        delete_response = ShopifyAPI::Webhooks::Registry.unregister(
+        delete_response = NewShopifyAPI::Webhooks::Registry.unregister(
           topic: "some/topic",
           session: @session,
         )
@@ -154,8 +154,8 @@ module ShopifyAPITest
           .with(body: JSON.dump({ query: queries[:delete_query], variables: nil }))
           .to_return({ status: 200, body: JSON.dump(queries[:delete_response_with_errors]) })
 
-        exception = assert_raises(ShopifyAPI::Errors::WebhookRegistrationError) do
-          ShopifyAPI::Webhooks::Registry.unregister(
+        exception = assert_raises(NewShopifyAPI::Errors::WebhookRegistrationError) do
+          NewShopifyAPI::Webhooks::Registry.unregister(
             topic: "some/topic",
             session: @session,
           )
@@ -172,8 +172,8 @@ module ShopifyAPITest
           .with(body: JSON.dump({ query: queries[:delete_query], variables: nil }))
           .to_return({ status: 200, body: JSON.dump(queries[:delete_response_with_user_errors]) })
 
-        exception = assert_raises(ShopifyAPI::Errors::WebhookRegistrationError) do
-          ShopifyAPI::Webhooks::Registry.unregister(
+        exception = assert_raises(NewShopifyAPI::Errors::WebhookRegistrationError) do
+          NewShopifyAPI::Webhooks::Registry.unregister(
             topic: "some/topic",
             session: @session,
           )
@@ -186,9 +186,9 @@ module ShopifyAPITest
           .with(body: JSON.dump({ query: queries[:fetch_id_query], variables: nil }))
           .to_return({ status: 200, body: JSON.dump(queries[:fetch_id_response]) })
 
-        webhook_id_response = ShopifyAPI::Webhooks::Registry.get_webhook_id(
+        webhook_id_response = NewShopifyAPI::Webhooks::Registry.get_webhook_id(
           topic: "some/topic",
-          client: ShopifyAPI::Clients::Graphql::Admin.new(session: @session),
+          client: NewShopifyAPI::Clients::Graphql::Admin.new(session: @session),
         )
         assert_equal(
           queries[:fetch_id_response]["data"]["webhookSubscriptions"]["edges"][0]["node"]["id"],
@@ -201,9 +201,9 @@ module ShopifyAPITest
           .with(body: JSON.dump({ query: queries[:fetch_id_query], variables: nil }))
           .to_return({ status: 200, body: JSON.dump(queries[:fetch_id_response_not_found]) })
 
-        webhook_id_response = ShopifyAPI::Webhooks::Registry.get_webhook_id(
+        webhook_id_response = NewShopifyAPI::Webhooks::Registry.get_webhook_id(
           topic: "some/topic",
-          client: ShopifyAPI::Clients::Graphql::Admin.new(session: @session),
+          client: NewShopifyAPI::Clients::Graphql::Admin.new(session: @session),
         )
         assert_nil(webhook_id_response)
       end
@@ -213,10 +213,10 @@ module ShopifyAPITest
           .with(body: JSON.dump({ query: queries[:fetch_id_query], variables: nil }))
           .to_return({ status: 200, body: JSON.dump(queries[:fetch_id_response_with_errors]) })
 
-        exception = assert_raises(ShopifyAPI::Errors::WebhookRegistrationError) do
-          ShopifyAPI::Webhooks::Registry.get_webhook_id(
+        exception = assert_raises(NewShopifyAPI::Errors::WebhookRegistrationError) do
+          NewShopifyAPI::Webhooks::Registry.get_webhook_id(
             topic: "some/topic",
-            client: ShopifyAPI::Clients::Graphql::Admin.new(session: @session),
+            client: NewShopifyAPI::Clients::Graphql::Admin.new(session: @session),
           )
         end
         assert_equal("Failed to fetch webhook from Shopify: some error", exception.message)
@@ -225,7 +225,7 @@ module ShopifyAPITest
       private
 
       def do_registration_test(delivery_method, path, fields: nil)
-        ShopifyAPI::Webhooks::Registry.clear
+        NewShopifyAPI::Webhooks::Registry.clear
 
         check_query_body = { query: queries[delivery_method][:check_query], variables: nil }
 
@@ -239,7 +239,7 @@ module ShopifyAPITest
           .with(body: JSON.dump({ query: queries[delivery_method][add_query_type], variables: nil }))
           .to_return({ status: 200, body: JSON.dump(queries[delivery_method][add_response_type]) })
 
-        ShopifyAPI::Webhooks::Registry.add_registration(
+        NewShopifyAPI::Webhooks::Registry.add_registration(
           topic: @topic,
           delivery_method: delivery_method,
           path: path,
@@ -249,7 +249,7 @@ module ShopifyAPITest
           ),
           fields: fields,
         )
-        registration_response = ShopifyAPI::Webhooks::Registry.register_all(
+        registration_response = NewShopifyAPI::Webhooks::Registry.register_all(
           session: @session,
         )[0]
 
@@ -264,7 +264,7 @@ module ShopifyAPITest
           .with(body: JSON.dump({ query: queries[delivery_method][:register_update_query], variables: nil }))
           .to_return({ status: 200, body: JSON.dump(queries[delivery_method][:register_update_response]) })
 
-        ShopifyAPI::Webhooks::Registry.add_registration(
+        NewShopifyAPI::Webhooks::Registry.add_registration(
           topic: @topic,
           delivery_method: delivery_method,
           path: "#{path}-updated",
@@ -273,7 +273,7 @@ module ShopifyAPITest
             end,
           ),
         )
-        update_registration_response = ShopifyAPI::Webhooks::Registry.register_all(
+        update_registration_response = NewShopifyAPI::Webhooks::Registry.register_all(
           session: @session,
         )[0]
 
@@ -282,14 +282,14 @@ module ShopifyAPITest
       end
 
       def do_registration_check_error_test(delivery_method, path)
-        ShopifyAPI::Webhooks::Registry.clear
+        NewShopifyAPI::Webhooks::Registry.clear
         body = { query: queries[delivery_method][:check_query], variables: nil }
 
         stub_request(:post, @url)
           .with(body: JSON.dump(body))
           .to_return(status: 304)
 
-        ShopifyAPI::Webhooks::Registry.add_registration(
+        NewShopifyAPI::Webhooks::Registry.add_registration(
           topic: @topic,
           delivery_method: delivery_method,
           path: path,
@@ -300,7 +300,7 @@ module ShopifyAPITest
         )
 
         assert_raises(StandardError) do
-          ShopifyAPI::Webhooks::Registry.register_all(
+          NewShopifyAPI::Webhooks::Registry.register_all(
           session: @session,
         )
         end

@@ -5,15 +5,15 @@
 # This file is auto-generated. If you have an issue, please create a GitHub issue.                                     #
 ########################################################################################################################
 
-module ShopifyAPI
-  class OrderRisk < ShopifyAPI::Rest::Base
+module NewShopifyAPI
+  class OrderRisk < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
     @next_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
-    def initialize(session: ShopifyAPI::Context.active_session)
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
+    def initialize(session: NewShopifyAPI::Context.active_session)
       super(session: session)
 
       @cause_cancel = T.let(nil, T.nilable(T::Boolean))
@@ -77,7 +77,7 @@ module ShopifyAPI
       def find(
         id:,
         order_id: nil,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         result = base_find(
           session: session,
@@ -97,7 +97,7 @@ module ShopifyAPI
       def delete(
         id:,
         order_id: nil,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         request(
           http_method: :delete,
@@ -117,7 +117,7 @@ module ShopifyAPI
       end
       def all(
         order_id: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         response = base_find(

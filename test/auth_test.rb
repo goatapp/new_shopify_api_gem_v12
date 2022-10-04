@@ -3,7 +3,7 @@
 
 require_relative "./test_helper"
 
-module ShopifyAPITest
+module NewShopifyAPITest
   class AuthTest < Test::Unit::TestCase
     def setup
       super
@@ -13,22 +13,22 @@ module ShopifyAPITest
 
     def test_valid_host
       assert_equal(
-        ShopifyAPI::Auth.embedded_app_url(@encoded_host),
-        "https://#{@host}/apps/#{ShopifyAPI::Context.api_key}",
+        NewShopifyAPI::Auth.embedded_app_url(@encoded_host),
+        "https://#{@host}/apps/#{NewShopifyAPI::Context.api_key}",
       )
     end
 
     def test_no_host
-      assert_raises(ShopifyAPI::Errors::MissingRequiredArgumentError) do
-        ShopifyAPI::Auth.embedded_app_url(nil)
+      assert_raises(NewShopifyAPI::Errors::MissingRequiredArgumentError) do
+        NewShopifyAPI::Auth.embedded_app_url(nil)
       end
     end
 
     def test_context_not_setup
       modify_context(api_key: "", api_secret_key: "", host_name: "")
 
-      assert_raises(ShopifyAPI::Errors::ContextNotSetupError) do
-        ShopifyAPI::Auth.embedded_app_url(@encoded_host)
+      assert_raises(NewShopifyAPI::Errors::ContextNotSetupError) do
+        NewShopifyAPI::Auth.embedded_app_url(@encoded_host)
       end
     end
   end

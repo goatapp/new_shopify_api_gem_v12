@@ -18,15 +18,15 @@ class Balance202201Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-01")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class Balance202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"balance" => [{"amount" => "53.99", "currency" => "USD"}]}), headers: {})
 
-    ShopifyAPI::Balance.all
+    NewShopifyAPI::Balance.all
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-01/shopify_payments/balance.json")
   end

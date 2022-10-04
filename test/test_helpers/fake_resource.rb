@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module TestHelpers
-  class FakeResource < ShopifyAPI::Rest::Base
+  class FakeResource < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @has_one = T.let({
@@ -30,7 +30,7 @@ module TestHelpers
         path: "other_resources/<other_resource_id>/fake_resources/<id>.json", },
     ], T::Array[T::Hash[String, T.any(T::Array[T.untyped], String, Symbol)]])
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
     def initialize(session: nil)
       super(session: session)
       @id = T.let(nil, T.nilable(Integer))
@@ -61,21 +61,21 @@ module TestHelpers
 
     class << self
       sig do
-        params(id: T.any(Integer, String), session: ShopifyAPI::Auth::Session, param: T.untyped,
+        params(id: T.any(Integer, String), session: NewShopifyAPI::Auth::Session, param: T.untyped,
           kwargs: T.untyped).returns(FakeResource)
       end
       def find(id:, session:, param: nil, **kwargs)
         T.cast(base_find(params: { param: param }.merge(kwargs), session: session, ids: { id: id })[0], FakeResource)
       end
 
-      sig { params(session: ShopifyAPI::Auth::Session, kwargs: T.untyped).returns(T::Array[FakeResource]) }
+      sig { params(session: NewShopifyAPI::Auth::Session, kwargs: T.untyped).returns(T::Array[FakeResource]) }
       def all(session:, **kwargs)
         T.cast(base_find(session: session, params: kwargs), T::Array[FakeResource])
       end
 
       sig do
         params(
-          session: ShopifyAPI::Auth::Session,
+          session: NewShopifyAPI::Auth::Session,
           id: Integer,
           other_resource_id: T.nilable(Integer),
         ).returns(T.untyped)

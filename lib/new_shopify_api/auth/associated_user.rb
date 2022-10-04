@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module Auth
     class AssociatedUser < T::Struct
       extend T::Sig

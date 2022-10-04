@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module Webhooks
     module Registrations
       class EventBridge < Registration

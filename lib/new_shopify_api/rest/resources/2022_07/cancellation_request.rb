@@ -5,15 +5,15 @@
 # This file is auto-generated. If you have an issue, please create a GitHub issue.                                     #
 ########################################################################################################################
 
-module ShopifyAPI
-  class CancellationRequest < ShopifyAPI::Rest::Base
+module NewShopifyAPI
+  class CancellationRequest < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
     @next_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
-    def initialize(session: ShopifyAPI::Context.active_session)
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
+    def initialize(session: NewShopifyAPI::Context.active_session)
       super(session: session)
 
       @fulfillment_order_id = T.let(nil, T.nilable(Integer))

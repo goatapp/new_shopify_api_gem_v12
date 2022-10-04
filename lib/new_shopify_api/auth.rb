@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module Auth
     extend T::Sig
 
@@ -11,7 +11,7 @@ module ShopifyAPI
       sig { params(host: T.nilable(String)).returns(String) }
       def embedded_app_url(host)
         unless Context.setup?
-          raise Errors::ContextNotSetupError, "ShopifyAPI::Context not setup, please call ShopifyAPI::Context.setup"
+          raise Errors::ContextNotSetupError, "NewShopifyAPI::Context not setup, please call NewShopifyAPI::Context.setup"
         end
 
         unless host

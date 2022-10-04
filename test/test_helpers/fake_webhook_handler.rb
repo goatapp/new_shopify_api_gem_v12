@@ -3,7 +3,7 @@
 
 module TestHelpers
   class FakeWebhookHandler
-    include ShopifyAPI::Webhooks::Handler
+    include NewShopifyAPI::Webhooks::Handler
 
     def initialize(handler)
       @handler = handler

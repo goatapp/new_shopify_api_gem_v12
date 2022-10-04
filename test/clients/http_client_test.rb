@@ -3,7 +3,7 @@
 
 require_relative "../test_helper.rb"
 
-module ShopifyAPITest
+module NewShopifyAPITest
   module Clients
     class HttpClientTest < Test::Unit::TestCase
       def setup
@@ -11,10 +11,10 @@ module ShopifyAPITest
         @shop = "test-shop.myshopify.com"
         @token = SecureRandom.alphanumeric(10)
         @base_path = "/base_path"
-        @session = ShopifyAPI::Auth::Session.new(shop: @shop, access_token: @token)
-        @client = ShopifyAPI::Clients::HttpClient.new(session: @session, base_path: @base_path)
+        @session = NewShopifyAPI::Auth::Session.new(shop: @shop, access_token: @token)
+        @client = NewShopifyAPI::Clients::HttpClient.new(session: @session, base_path: @base_path)
 
-        @request = ShopifyAPI::Clients::HttpRequest.new(
+        @request = NewShopifyAPI::Clients::HttpRequest.new(
           http_method: :post,
           path: "some-path",
           body: { foo: "bar" },
@@ -50,15 +50,15 @@ module ShopifyAPITest
 
       def test_request_with_empty_base_path
         @base_path = ""
-        @client = ShopifyAPI::Clients::HttpClient.new(session: @session, base_path: @base_path)
+        @client = NewShopifyAPI::Clients::HttpClient.new(session: @session, base_path: @base_path)
         simple_http_test(:get)
       end
 
       def test_request_using_active_session
-        ShopifyAPI::Context.activate_session(@session)
-        @client = ShopifyAPI::Clients::HttpClient.new(base_path: @base_path)
+        NewShopifyAPI::Context.activate_session(@session)
+        @client = NewShopifyAPI::Clients::HttpClient.new(base_path: @base_path)
         simple_http_test(:get)
-        ShopifyAPI::Context.deactivate_session
+        NewShopifyAPI::Context.deactivate_session
       end
 
       def test_request_with_empty_response_body
@@ -72,8 +72,8 @@ module ShopifyAPITest
       end
 
       def test_request_with_no_access_token
-        @session = ShopifyAPI::Auth::Session.new(shop: @shop)
-        @client = ShopifyAPI::Clients::HttpClient.new(session: @session, base_path: @base_path)
+        @session = NewShopifyAPI::Auth::Session.new(shop: @shop)
+        @client = NewShopifyAPI::Clients::HttpClient.new(session: @session, base_path: @base_path)
 
         @expected_headers.delete(:"X-Shopify-Access-Token")
 
@@ -85,14 +85,14 @@ module ShopifyAPITest
         @expected_headers[:"User-Agent"] = "some_prefix | " + @expected_headers[:"User-Agent"]
 
         modify_context(user_agent_prefix: "some_prefix")
-        @client = ShopifyAPI::Clients::HttpClient.new(session: @session, base_path: @base_path)
+        @client = NewShopifyAPI::Clients::HttpClient.new(session: @session, base_path: @base_path)
 
         apply_simple_http_stub
         verify_http_request
       end
 
       def test_request_with_no_optional_parameters
-        @request = ShopifyAPI::Clients::HttpRequest.new(http_method: :get, path: @request.path)
+        @request = NewShopifyAPI::Clients::HttpRequest.new(http_method: :get, path: @request.path)
 
         @expected_headers.delete(:extra)
         @expected_headers.delete(:"Content-Type")
@@ -106,7 +106,7 @@ module ShopifyAPITest
 
       def test_request_with_invalid_request
         @request.http_method = :bad
-        assert_raises(ShopifyAPI::Errors::InvalidHttpRequestError) { @client.request(@request) }
+        assert_raises(NewShopifyAPI::Errors::InvalidHttpRequestError) { @client.request(@request) }
       end
 
       def test_non_retriable_error_code
@@ -114,7 +114,7 @@ module ShopifyAPITest
           .with(body: @request.body.to_json, query: @request.query, headers: @expected_headers)
           .to_return(body: { errors: "Something very not good" }.to_json, headers: @response_headers, status: 400)
 
-        assert_raises(ShopifyAPI::Errors::HttpResponseError) { @client.request(@request) }
+        assert_raises(NewShopifyAPI::Errors::HttpResponseError) { @client.request(@request) }
       end
 
       def test_retriable_error_code_no_retries
@@ -122,7 +122,7 @@ module ShopifyAPITest
           .with(body: @request.body.to_json, query: @request.query, headers: @expected_headers)
           .to_return(body: { errors: "Something very not good" }.to_json, headers: @response_headers, status: 500)
 
-        assert_raises(ShopifyAPI::Errors::HttpResponseError) { @client.request(@request) }
+        assert_raises(NewShopifyAPI::Errors::HttpResponseError) { @client.request(@request) }
       end
 
       def test_retry_throttle_error
@@ -162,7 +162,7 @@ module ShopifyAPITest
           .with(body: @request.body.to_json, query: @request.query, headers: @expected_headers)
           .to_return(body: { errors: "Something very not good" }.to_json, headers: @response_headers, status: 500)
 
-        assert_raises(ShopifyAPI::Errors::MaxHttpRetriesExceededError) { @client.request(@request) }
+        assert_raises(NewShopifyAPI::Errors::MaxHttpRetriesExceededError) { @client.request(@request) }
       end
 
       def test_throttle_error_no_retry_after_header

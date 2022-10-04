@@ -8,7 +8,7 @@ up:
 
 commands:
   console:
-    desc: 'start a ruby shell with ShopifyAPI already loaded'
+    desc: 'start a ruby shell with NewShopifyAPI already loaded'
     aliases: ['c']
     run: bundle exec irb -Ilib -rshopify_api
   style:

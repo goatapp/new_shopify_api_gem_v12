@@ -18,15 +18,15 @@ class Dispute202204Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-04")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class Dispute202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"disputes" => [{"id" => 1052608616, "order_id" => nil, "type" => "chargeback", "amount" => "100.00", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "won", "evidence_due_by" => "2013-07-03T19:00:00-04:00", "evidence_sent_on" => "2013-07-04T07:00:00-04:00", "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 815713555, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "credit_not_processed", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 782360659, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "won", "evidence_due_by" => "2013-07-03T19:00:00-04:00", "evidence_sent_on" => "2013-07-04T07:00:00-04:00", "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 670893524, "order_id" => 625362839, "type" => "inquiry", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 598735659, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 85190714, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "under_review", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => "2022-10-02T20:00:00-04:00", "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 35982383, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "subscription_canceled", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}]}), headers: {})
 
-    ShopifyAPI::Dispute.all(
+    NewShopifyAPI::Dispute.all(
       initiated_at: "2013-05-03",
     )
 
@@ -58,7 +58,7 @@ class Dispute202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"disputes" => [{"id" => 1052608616, "order_id" => nil, "type" => "chargeback", "amount" => "100.00", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "won", "evidence_due_by" => "2013-07-03T19:00:00-04:00", "evidence_sent_on" => "2013-07-04T07:00:00-04:00", "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 815713555, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "credit_not_processed", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 782360659, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "won", "evidence_due_by" => "2013-07-03T19:00:00-04:00", "evidence_sent_on" => "2013-07-04T07:00:00-04:00", "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 670893524, "order_id" => 625362839, "type" => "inquiry", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 598735659, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 85190714, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "under_review", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => "2022-10-02T20:00:00-04:00", "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 35982383, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "subscription_canceled", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}]}), headers: {})
 
-    ShopifyAPI::Dispute.all
+    NewShopifyAPI::Dispute.all
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-04/shopify_payments/disputes.json")
   end
@@ -74,7 +74,7 @@ class Dispute202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"disputes" => [{"id" => 1052608616, "order_id" => nil, "type" => "chargeback", "amount" => "100.00", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "won", "evidence_due_by" => "2013-07-03T19:00:00-04:00", "evidence_sent_on" => "2013-07-04T07:00:00-04:00", "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}, {"id" => 782360659, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "won", "evidence_due_by" => "2013-07-03T19:00:00-04:00", "evidence_sent_on" => "2013-07-04T07:00:00-04:00", "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}]}), headers: {})
 
-    ShopifyAPI::Dispute.all(
+    NewShopifyAPI::Dispute.all(
       status: "won",
     )
 
@@ -92,7 +92,7 @@ class Dispute202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"dispute" => {"id" => 598735659, "order_id" => 625362839, "type" => "chargeback", "amount" => "11.50", "currency" => "USD", "reason" => "fraudulent", "network_reason_code" => "4827", "status" => "needs_response", "evidence_due_by" => "2022-10-15T20:00:00-04:00", "evidence_sent_on" => nil, "finalized_on" => nil, "initiated_at" => "2013-05-03T20:00:00-04:00"}}), headers: {})
 
-    ShopifyAPI::Dispute.find(
+    NewShopifyAPI::Dispute.find(
       id: 598735659,
     )
 

@@ -3,12 +3,12 @@
 
 require "fileutils"
 
-module ShopifyAPI
+module NewShopifyAPI
   module Auth
     class FileSessionStorage
       extend T::Sig
       extend T::Helpers
-      include ShopifyAPI::Auth::SessionStorage
+      include NewShopifyAPI::Auth::SessionStorage
 
       sig { returns(String) }
       attr_accessor :path
@@ -34,7 +34,7 @@ module ShopifyAPI
       def load_session(id)
         session_path = session_file_path(id)
         if File.exist?(session_path)
-          ShopifyAPI::Auth::Session.deserialize(File.read(session_path))
+          NewShopifyAPI::Auth::Session.deserialize(File.read(session_path))
         end
       end
 

@@ -22,7 +22,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 ## Version 11.0.0
 
 - [#987](https://github.com/Shopify/shopify-api-ruby/pull/987) ⚠️ [Breaking] Add REST resources for July 2022 API version, remove support and REST resources for July 2021 (`2021-07`) API version
-- [#979](https://github.com/Shopify/shopify-api-ruby/pull/979) Update `ShopifyAPI::Context.setup` to take `old_api_secret_key` to support API credentials rotation
+- [#979](https://github.com/Shopify/shopify-api-ruby/pull/979) Update `NewShopifyAPI::Context.setup` to take `old_api_secret_key` to support API credentials rotation
 - [#977](https://github.com/Shopify/shopify-api-ruby/pull/977) Fix webhook requests when a header is present having a symbol key (e.g. `:clearance`)
 
 ## Version 10.1.0
@@ -48,7 +48,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 - [#919](https://github.com/Shopify/shopify-api-ruby/pull/919) Allow REST resources to configure a deny list of attributes to be excluded when saving
 - [#920](https://github.com/Shopify/shopify-api-ruby/pull/920) Set all values received from the API response to REST resource objects, and allow setting / getting attributes with special characters (such as `?`)
-- [#927](https://github.com/Shopify/shopify-api-ruby/pull/927) Fix the `ShopifyAPI::AdminVersions` module for backward compatibility
+- [#927](https://github.com/Shopify/shopify-api-ruby/pull/927) Fix the `NewShopifyAPI::AdminVersions` module for backward compatibility
 
 ## Version 10.0.0
 
@@ -105,7 +105,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 9.0.3
 
-- We now raise a `ShopifyAPI::ValidationException` exception when clients try to use `Product` and `Variant` with deprecated inventory-related fields in API version `2019-10` or later. [#655](https://github.com/Shopify/shopify-api-ruby/pull/655) Deprecation and migration information can be found in the following documents:
+- We now raise a `NewShopifyAPI::ValidationException` exception when clients try to use `Product` and `Variant` with deprecated inventory-related fields in API version `2019-10` or later. [#655](https://github.com/Shopify/shopify-api-ruby/pull/655) Deprecation and migration information can be found in the following documents:
   - [Product Variant REST API Reference](https://shopify.dev/docs/admin-api/rest/reference/products/product-variant)
   - [Migrate your app to support multiple locations](https://shopify.dev/tutorials/migrate-your-app-to-support-multiple-locations)
   - [Manage product inventory with the Admin API](https://shopify.dev/tutorials/manage-product-inventory-with-admin-api)
@@ -175,7 +175,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 - Add 2019-10 to known API versions
 - Add support for cursor pagination [#594](https://github.com/Shopify/shopify-api-ruby/pull/594) and
   [#611](https://github.com/Shopify/shopify-api-ruby/pull/611)
-- `ShopifyAPI::Base.api_version` now defaults to `ShopifyAPI::ApiVersion::NullVersion` instead of `nil`. Making requests without first setting an ApiVersion raises `ApiVersionNotSetError` instead of `NoMethodError: undefined method 'construct_api_path' for nil:NilClass'` [#605](https://github.com/Shopify/shopify-api-ruby/pull/605)
+- `NewShopifyAPI::Base.api_version` now defaults to `NewShopifyAPI::ApiVersion::NullVersion` instead of `nil`. Making requests without first setting an ApiVersion raises `ApiVersionNotSetError` instead of `NoMethodError: undefined method 'construct_api_path' for nil:NilClass'` [#605](https://github.com/Shopify/shopify-api-ruby/pull/605)
 
 ## Version 7.0.2
 
@@ -183,26 +183,26 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 7.0.1
 
-- Support passing version string to `ShopifyAPI::Base.api_version` [#563](https://github.com/Shopify/shopify-api-ruby/pull/563)
+- Support passing version string to `NewShopifyAPI::Base.api_version` [#563](https://github.com/Shopify/shopify-api-ruby/pull/563)
 
 ## Version 7.0.0
 
 - Removed support for `ActiveResouce` < `4.1`.
-- Removed `ShopifyAPI::Oauth`.
+- Removed `NewShopifyAPI::Oauth`.
 - Added api version support, See [migration
   notes](README.md#-breaking-change-notice-for-version-700-)
-- Changed `ShopifyAPI::Session` method signatures from positional to keyword
+- Changed `NewShopifyAPI::Session` method signatures from positional to keyword
   arguments, See [migration notes](README.md#-breaking-change-notice-for-version-700-)
 - Add support for newer call limit header `X-Shopify-Shop-Api-Call-Limit`.
 - Removed all Ping resources.
 
 ## Version 6.0.0
 
-- Removed undocumented `protocol` and `port` options from `ShopifyAPI::Session`.
+- Removed undocumented `protocol` and `port` options from `NewShopifyAPI::Session`.
 
 ## Version 5.2.4
 
-- Added `currency` parameter to `ShopifyAPI::Order#capture`. This parameter is required for apps that belong to the
+- Added `currency` parameter to `NewShopifyAPI::Order#capture`. This parameter is required for apps that belong to the
   multi-currency beta program.
 
 ## Version 5.2.3
@@ -219,32 +219,32 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 5.2.0
 
-- Added `ShopifyAPI::Currency` to fetch list of supported currencies on a shop
-- Added `ShopifyAPI::TenderTransaction` to fetch list of transactions on a shop
-- Fixed bug with X-Shopify-Checkout-Version on ShopifyAPI::Checkout header being applied to all requests
+- Added `NewShopifyAPI::Currency` to fetch list of supported currencies on a shop
+- Added `NewShopifyAPI::TenderTransaction` to fetch list of transactions on a shop
+- Fixed bug with X-Shopify-Checkout-Version on NewShopifyAPI::Checkout header being applied to all requests
 
 ## Version 5.1.0
 
-- Added `ShopifyAPI::Publications`
-- Added `ShopifyAPI::ProductPublications`
-- Added `ShopifyAPI::CollectionPublications`
-- Added support for new collection products endpoint from `ShopifyAPI::Collection#products`
+- Added `NewShopifyAPI::Publications`
+- Added `NewShopifyAPI::ProductPublications`
+- Added `NewShopifyAPI::CollectionPublications`
+- Added support for new collection products endpoint from `NewShopifyAPI::Collection#products`
 
 ## Version 5.0.0
 
-- Breaking change: `ShopifyAPI::Checkout` now maps to the Checkout API, rather than the Abandoned Checkouts API
+- Breaking change: `NewShopifyAPI::Checkout` now maps to the Checkout API, rather than the Abandoned Checkouts API
   - See the README for more details
-- Added `ShopifyAPI::AbandonedCheckout`
-- Added support for X-Shopify-Checkout-Version header on `ShopifyAPI::Checkout`
-- Added `ShopifyAPI::ShippingRate`
-- Added `ShopifyAPI::Payment`
+- Added `NewShopifyAPI::AbandonedCheckout`
+- Added support for X-Shopify-Checkout-Version header on `NewShopifyAPI::Checkout`
+- Added `NewShopifyAPI::ShippingRate`
+- Added `NewShopifyAPI::Payment`
 - Added support for `Checkout::complete` endpoint
 - Fixed session handling support for Rails 5.2.1
 
 ## Version 4.13.0
 
-- Added `ShopifyAPI::ApiPermission` resource for uninstalling an application
-- Added a deprecation warning to `ShopifyAPI::OAuth`
+- Added `NewShopifyAPI::ApiPermission` resource for uninstalling an application
+- Added a deprecation warning to `NewShopifyAPI::OAuth`
 
 ## Version 4.12.0
 
@@ -252,13 +252,13 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 4.11.0
 
-- Added `ShopifyAPI::InventoryItem`
-- Added `ShopifyAPI::InventoryLevel`
-- Added `#inventory_levels` method to `ShopifyAPI::Location`
+- Added `NewShopifyAPI::InventoryItem`
+- Added `NewShopifyAPI::InventoryLevel`
+- Added `#inventory_levels` method to `NewShopifyAPI::Location`
 
 ## Version 4.10.0
 
-- Added `ShopifyAPI::AccessScope`
+- Added `NewShopifyAPI::AccessScope`
 
 ## Version 4.9.1
 
@@ -266,62 +266,62 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 4.9.0
 
-- Added `ShopifyAPI::PriceRule`
-- Added `ShopifyAPI::DiscountCode`
+- Added `NewShopifyAPI::PriceRule`
+- Added `NewShopifyAPI::DiscountCode`
 
 ## Version 4.8.0
 
-- Added `add_engagements` to `ShopifyAPI::MarketingEvent`
+- Added `add_engagements` to `NewShopifyAPI::MarketingEvent`
 
 ## Version 4.7.1
 
-- Added support for URL parameter (e.g. limit & page) to ShopifyAPI::Metafields
-- Added support for URL parameter (e.g. limit & page) to metafield operator in ShopifyAPI::Shop
+- Added support for URL parameter (e.g. limit & page) to NewShopifyAPI::Metafields
+- Added support for URL parameter (e.g. limit & page) to metafield operator in NewShopifyAPI::Shop
 
 ## Version 4.7.0
 
-- Removed the mandatory `application_id` parameter from `ShopifyAPI::ProductListing` and `ShopifyAPI::CollectionListing`
-- Fixed a bug related to the non-standard primary key for `ShopifyAPI::ProductListing` and `ShopifyAPI::CollectionListing`
+- Removed the mandatory `application_id` parameter from `NewShopifyAPI::ProductListing` and `NewShopifyAPI::CollectionListing`
+- Fixed a bug related to the non-standard primary key for `NewShopifyAPI::ProductListing` and `NewShopifyAPI::CollectionListing`
 
 ## Version 4.6.0
 
-- Added `ShopifyAPI::Report`
+- Added `NewShopifyAPI::Report`
 
 ## Version 4.5.0
 
-- Added `ShopifyAPI::MarketingEvent`
+- Added `NewShopifyAPI::MarketingEvent`
 
 ## Version 4.4.0
 
-- Added `ShopifyAPI::CustomerInvite`
+- Added `NewShopifyAPI::CustomerInvite`
 - Support for Customer#send_invite endpoint
 
 ## Version 4.3.8
 
-- Added `ShopifyAPI::ResourceFeedback`
+- Added `NewShopifyAPI::ResourceFeedback`
 
 ## Version 4.3.7
 
-- Added support for `complete` in `ShopifyAPI::DraftOrder`
+- Added support for `complete` in `NewShopifyAPI::DraftOrder`
 
 ## Version 4.3.6
 
-- Fixed the `customer_saved_search_id` param in `ShopifyAPI::CustomerSavedSearch#customers`.
+- Fixed the `customer_saved_search_id` param in `NewShopifyAPI::CustomerSavedSearch#customers`.
 
 ## Version 4.3.5
 
 - Added support for online mode access tokens, token expiry, and associated_user information.
-- Added `ShopifyAPI::DraftOrder`
-- Added `ShopifyAPI::DraftOrderInvoice`
+- Added `NewShopifyAPI::DraftOrder`
+- Added `NewShopifyAPI::DraftOrderInvoice`
 
 ## Version 4.3.4
 
-- Added `ShopifyAPI::ProductListing`
-- Added `ShopifyAPI::CollectionListing`
+- Added `NewShopifyAPI::ProductListing`
+- Added `NewShopifyAPI::CollectionListing`
 
 ## Version 4.3.3
 
-- Added `ShopifyAPI::StorefrontAccessToken`
+- Added `NewShopifyAPI::StorefrontAccessToken`
 
 ## Version 4.3.2
 
@@ -329,7 +329,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 4.3.1
 
-- Support for ShopifyAPI::ApplicationCredit
+- Support for NewShopifyAPI::ApplicationCredit
 
 ## Version 4.3.0
 
@@ -352,7 +352,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 4.1.1
 
-- Added explicit 90 second timeout to `ShopifyAPI::Base`
+- Added explicit 90 second timeout to `NewShopifyAPI::Base`
 
 ## Version 4.0.7
 
@@ -360,11 +360,11 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 4.0.6
 
-- Replaced `cancelled` with `expired` in `ShopifyAPI::ApplicationCharge`
+- Replaced `cancelled` with `expired` in `NewShopifyAPI::ApplicationCharge`
 
 ## Version 4.0.5
 
-- Added `pending`, `cancelled`, `accepted`, `declined` helper methods to `ShopifyAPI::ApplicationCharge`
+- Added `pending`, `cancelled`, `accepted`, `declined` helper methods to `NewShopifyAPI::ApplicationCharge`
 
 ## Version 4.0.4
 
@@ -380,7 +380,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 4.0.1
 
-- Added `ShopifyAPI::OAuth.revoke` for easy token revocation.
+- Added `NewShopifyAPI::OAuth.revoke` for easy token revocation.
 
 ## Version 3.2.6
 
@@ -450,7 +450,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 - Adds access to CustomerSavedSearch
 - Adds resources: Order::DefaultAddress, Client::ClientDetails, Announcement
 - Allows access to Articles without a blog_id
-- Moves encode and as_json overrides to ShopifyAPI::Base scope
+- Moves encode and as_json overrides to NewShopifyAPI::Base scope
 - Exposes the `order` action in SmartCollection for general use
 
 ## Version 3.0.3
@@ -487,7 +487,7 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 ## Version 2.1.0
 
 - Fix JSON errors handling
-- Remove global limit from ShopifyAPI::Limits
+- Remove global limit from NewShopifyAPI::Limits
 
 ## Version 2.0.0
 
@@ -495,8 +495,8 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 - Refactored resources into their own source files
 - Added API limits functionality
 - Patched ActiveResource issue with roots in JSON
-- Added pending, cancelled, accepted, and declined convenience methods to ShopifyAPI::RecurringApplicationCharge
-- ShopifyAPI::Session#temp now available as a convenience method to support temporarily switching to other shops when making calls
+- Added pending, cancelled, accepted, and declined convenience methods to NewShopifyAPI::RecurringApplicationCharge
+- NewShopifyAPI::Session#temp now available as a convenience method to support temporarily switching to other shops when making calls
 - Fixes to `shopify console` CLI tool
 
 ## Version 1.2.5
@@ -555,4 +555,4 @@ Note: For changes to the API, see https://shopify.dev/changelog?filter=api
 
 ## Version 1.0.0
 
-- extracting ShopifyAPI from Shopify into Gem
+- extracting NewShopifyAPI from Shopify into Gem

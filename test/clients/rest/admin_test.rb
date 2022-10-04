@@ -25,11 +25,11 @@ class AdminTest < Test::Unit::TestCase
   end
 
   def test_path_starting_at_admin_overrides_default
-    session = ShopifyAPI::Auth::Session.new(
+    session = NewShopifyAPI::Auth::Session.new(
       shop: "test-shop.myshopify.com",
       access_token: SecureRandom.alphanumeric(10),
     )
-    client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+    client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
     request_path = "/admin/some-custom-path"
 
@@ -48,9 +48,9 @@ class AdminTest < Test::Unit::TestCase
   private
 
   def run_test(http_method, path = "/some-path", expected_path = "some-path.json")
-    session = ShopifyAPI::Auth::Session.new(shop: "test-shop.myshopify.com",
+    session = NewShopifyAPI::Auth::Session.new(shop: "test-shop.myshopify.com",
       access_token: SecureRandom.alphanumeric(10))
-    client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+    client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
     request = {
       path: path,
@@ -68,7 +68,7 @@ class AdminTest < Test::Unit::TestCase
 
     stub_request(
       http_method,
-      "https://#{session.shop}/admin/api/#{ShopifyAPI::Context.api_version}/#{expected_path}",
+      "https://#{session.shop}/admin/api/#{NewShopifyAPI::Context.api_version}/#{expected_path}",
     )
       .with(body: request[:body].to_json, query: request[:query], headers: expected_headers)
       .to_return(body: success_body.to_json, headers: response_headers)

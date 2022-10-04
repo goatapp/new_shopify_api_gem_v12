@@ -1,10 +1,10 @@
 # Make a REST API call
 
-Once OAuth is complete, we can use the `ShopifyAPI::Clients::Rest::Admin` client to make an API call to the Shopify Admin API. To do this, you can create an instance of `ShopifyAPI::Clients::Rest::Admin` using the current session to make requests to the Admin API.
+Once OAuth is complete, we can use the `NewShopifyAPI::Clients::Rest::Admin` client to make an API call to the Shopify Admin API. To do this, you can create an instance of `NewShopifyAPI::Clients::Rest::Admin` using the current session to make requests to the Admin API.
 
 ## Methods
 
-The Rest Admin client offers the 4 core request methods: `get`, `delete`, `post`, and `put`. These methods each take the parameters outlined in the table below. If the request is successful these methods will all return a `ShopifyAPI::Clients::HttpResponse` object, which has properties `code`, `headers`, and `body` otherwise an error will be raised describing what went wrong.
+The Rest Admin client offers the 4 core request methods: `get`, `delete`, `post`, and `put`. These methods each take the parameters outlined in the table below. If the request is successful these methods will all return a `NewShopifyAPI::Clients::HttpResponse` object, which has properties `code`, `headers`, and `body` otherwise an error will be raised describing what went wrong.
 
 | Parameter      | Type                                                     | Required in Methods | Default Value | Notes                                                                                                                                                                                                                                                                                  |
 | -------------- | -------------------------------------------------------- | :-----------------: | :-----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -22,10 +22,10 @@ The Rest Admin client offers the 4 core request methods: `get`, `delete`, `post`
 
 ```ruby
 # Load the current session to get the `accessToken`.
-session = ShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
+session = NewShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
 
 # Create a new client.
-client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
 # Use `client.get` to request the specified Shopify REST API endpoint, in this case `products`.
 response = client.get(path: "products")
@@ -38,10 +38,10 @@ some_function(response.body)
 
 ```ruby
 # Load the current session to get the `accessToken`.
-session = ShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
+session = NewShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
 
 # Create a new client.
-client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
 # Build your post request body.
 body = {
@@ -71,8 +71,8 @@ After making a request, the `next_page_info` and `prev_page_info` can be found o
 An example of this is shown below:
 
 ```ruby
-session = ShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
-client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+session = NewShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
+client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
 response = client.get(path: "products", query: { limit: 10 })
 
@@ -88,14 +88,14 @@ Similarly, when using REST resources the `next_page_info` and `prev_page_info` c
 An example of this is shown below:
 
 ```ruby
-session = ShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
+session = NewShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
 
-products = ShopifyAPI::Product.all(session: session, limit: 10)
+products = NewShopifyAPI::Product.all(session: session, limit: 10)
 
 loop do
   some_function(products)
-  break unless ShopifyAPI::Product.next_page?
-  products = ShopifyAPI::Product.all(session: session, limit: 10, page_info: ShopifyAPI::Product.next_page_info)
+  break unless NewShopifyAPI::Product.next_page?
+  products = NewShopifyAPI::Product.all(session: session, limit: 10, page_info: NewShopifyAPI::Product.next_page_info)
 end
 ```
 
@@ -104,8 +104,8 @@ The next/previous page_info strings can also be retrieved from the response obje
 An example of this is shown below:
 
 ```ruby
-session = ShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
-client = ShopifyAPI::Clients::Rest::Admin.new(session: session)
+session = NewShopifyAPI::Utils::SessionUtils.load_current_session(headers, cookies, is_online)
+client = NewShopifyAPI::Clients::Rest::Admin.new(session: session)
 
 response = client.get(path: "products", query: { limit: 10 })
 next_page_info = response.next_page_info
@@ -118,17 +118,17 @@ end
 
 ### Error Messages
 
-You can rescue `ShopifyAPI::Errors::HttpResponseError` and output error messages with `errors.full_messages`
+You can rescue `NewShopifyAPI::Errors::HttpResponseError` and output error messages with `errors.full_messages`
 
 See example:
 
 ```ruby
- fulfillment = ShopifyAPI::Fulfillment.new(session: @session)
+ fulfillment = NewShopifyAPI::Fulfillment.new(session: @session)
   fulfillment.order_id = 2776493818000
   ...
   fulfillment.tracking_company = "Jack Black's Pack, Stack and Track"
   fulfillment.save()
-rescue ShopifyAPI::Errors::HttpResponseError => e
+rescue NewShopifyAPI::Errors::HttpResponseError => e
   puts fulfillment.errors.full_messages
   # {"base"=>["Line items are already fulfilled"]}
   # If you report this error, please include this id: e712dde0-1270-4258-8cdb-d198792c917e.

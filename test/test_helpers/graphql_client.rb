@@ -17,7 +17,7 @@ module TestHelpers
       success_body = { "success" => true }
       response_headers = { "content-type" => "application/json" }
 
-      stub_request(:post, "https://test-shop.myshopify.com/#{@path}/#{ShopifyAPI::Context.api_version}/graphql.json")
+      stub_request(:post, "https://test-shop.myshopify.com/#{@path}/#{NewShopifyAPI::Context.api_version}/graphql.json")
         .with(body: body, headers: @expected_headers)
         .to_return(body: success_body.to_json, headers: response_headers)
 
@@ -47,7 +47,7 @@ module TestHelpers
       success_body = { "success" => true }
       response_headers = { "content-type" => "application/json" }
 
-      stub_request(:post, "https://test-shop.myshopify.com/#{@path}/#{ShopifyAPI::Context.api_version}/graphql.json")
+      stub_request(:post, "https://test-shop.myshopify.com/#{@path}/#{NewShopifyAPI::Context.api_version}/graphql.json")
         .with(body: body, headers: @expected_headers)
         .to_return(body: success_body.to_json, headers: response_headers)
 

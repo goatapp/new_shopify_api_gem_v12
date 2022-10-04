@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   class Context
     extend T::Sig
 
@@ -10,7 +10,7 @@ module ShopifyAPI
     @api_version = T.let(LATEST_SUPPORTED_ADMIN_VERSION, String)
     @host_name = T.let("", String)
     @scope = T.let(Auth::AuthScopes.new, Auth::AuthScopes)
-    @session_storage = T.let(ShopifyAPI::Auth::FileSessionStorage.new, ShopifyAPI::Auth::SessionStorage)
+    @session_storage = T.let(NewShopifyAPI::Auth::FileSessionStorage.new, NewShopifyAPI::Auth::SessionStorage)
     @is_private = T.let(false, T::Boolean)
     @private_shop = T.let(nil, T.nilable(String))
     @is_embedded = T.let(true, T::Boolean)
@@ -34,7 +34,7 @@ module ShopifyAPI
           scope: T.any(T::Array[String], String),
           is_private: T::Boolean,
           is_embedded: T::Boolean,
-          session_storage: ShopifyAPI::Auth::SessionStorage,
+          session_storage: NewShopifyAPI::Auth::SessionStorage,
           logger: Logger,
           private_shop: T.nilable(String),
           user_agent_prefix: T.nilable(String),
@@ -55,9 +55,9 @@ module ShopifyAPI
         user_agent_prefix: nil,
         old_api_secret_key: nil
       )
-        unless ShopifyAPI::AdminVersions::SUPPORTED_ADMIN_VERSIONS.include?(api_version)
+        unless NewShopifyAPI::AdminVersions::SUPPORTED_ADMIN_VERSIONS.include?(api_version)
           raise Errors::UnsupportedVersionError,
-            "Invalid vession #{api_version}, supported versions: #{ShopifyAPI::AdminVersions::SUPPORTED_ADMIN_VERSIONS}"
+            "Invalid vession #{api_version}, supported versions: #{NewShopifyAPI::AdminVersions::SUPPORTED_ADMIN_VERSIONS}"
         end
 
         @api_key = api_key
@@ -100,7 +100,7 @@ module ShopifyAPI
         T.must(@rest_resource_loader).enable_reloading
         T.must(@rest_resource_loader).ignore("#{__dir__}/rest/resources")
         T.must(@rest_resource_loader).setup
-        T.must(@rest_resource_loader).push_dir(path, namespace: ShopifyAPI)
+        T.must(@rest_resource_loader).push_dir(path, namespace: NewShopifyAPI)
         T.must(@rest_resource_loader).reload
       end
 
@@ -110,7 +110,7 @@ module ShopifyAPI
       sig { returns(Auth::AuthScopes) }
       attr_reader :scope
 
-      sig { returns(ShopifyAPI::Auth::SessionStorage) }
+      sig { returns(NewShopifyAPI::Auth::SessionStorage) }
       attr_reader :session_storage
 
       sig { returns(Logger) }

@@ -18,15 +18,15 @@ class OrderRisk202204Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-04")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class OrderRisk202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"risk" => {"id" => 1029151490, "order_id" => 450789469, "checkout_id" => 901414060, "source" => "External", "score" => "1.0", "recommendation" => "cancel", "display" => true, "cause_cancel" => true, "message" => "This order came from an anonymous proxy", "merchant_message" => "This order came from an anonymous proxy"}}), headers: {})
 
-    order_risk = ShopifyAPI::OrderRisk.new
+    order_risk = NewShopifyAPI::OrderRisk.new
     order_risk.order_id = 450789469
     order_risk.message = "This order came from an anonymous proxy"
     order_risk.recommendation = "cancel"
@@ -64,7 +64,7 @@ class OrderRisk202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"risks" => [{"id" => 284138680, "order_id" => 450789469, "checkout_id" => nil, "source" => "External", "score" => "1.0", "recommendation" => "cancel", "display" => true, "cause_cancel" => true, "message" => "This order was placed from a proxy IP", "merchant_message" => "This order was placed from a proxy IP"}, {"id" => 1029151489, "order_id" => 450789469, "checkout_id" => 901414060, "source" => "External", "score" => "1.0", "recommendation" => "cancel", "display" => true, "cause_cancel" => true, "message" => "This order came from an anonymous proxy", "merchant_message" => "This order came from an anonymous proxy"}]}), headers: {})
 
-    ShopifyAPI::OrderRisk.all(
+    NewShopifyAPI::OrderRisk.all(
       order_id: 450789469,
     )
 
@@ -82,7 +82,7 @@ class OrderRisk202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"risk" => {"id" => 284138680, "order_id" => 450789469, "checkout_id" => nil, "source" => "External", "score" => "1.0", "recommendation" => "cancel", "display" => true, "cause_cancel" => true, "message" => "This order was placed from a proxy IP", "merchant_message" => "This order was placed from a proxy IP"}}), headers: {})
 
-    ShopifyAPI::OrderRisk.find(
+    NewShopifyAPI::OrderRisk.find(
       order_id: 450789469,
       id: 284138680,
     )
@@ -101,7 +101,7 @@ class OrderRisk202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"risk" => {"order_id" => 450789469, "cause_cancel" => false, "message" => "After further review, this is a legitimate order", "recommendation" => "accept", "score" => "0.0", "source" => "External", "id" => 284138680, "checkout_id" => nil, "display" => true, "merchant_message" => "After further review, this is a legitimate order"}}), headers: {})
 
-    order_risk = ShopifyAPI::OrderRisk.new
+    order_risk = NewShopifyAPI::OrderRisk.new
     order_risk.order_id = 450789469
     order_risk.id = 284138680
     order_risk.message = "After further review, this is a legitimate order"
@@ -125,7 +125,7 @@ class OrderRisk202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({}), headers: {})
 
-    ShopifyAPI::OrderRisk.delete(
+    NewShopifyAPI::OrderRisk.delete(
       order_id: 450789469,
       id: 284138680,
     )

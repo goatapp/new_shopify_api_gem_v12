@@ -5,15 +5,15 @@
 # This file is auto-generated. If you have an issue, please create a GitHub issue.                                     #
 ########################################################################################################################
 
-module ShopifyAPI
-  class LocationsForMove < ShopifyAPI::Rest::Base
+module NewShopifyAPI
+  class LocationsForMove < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
     @next_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
-    def initialize(session: ShopifyAPI::Context.active_session)
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
+    def initialize(session: NewShopifyAPI::Context.active_session)
       super(session: session)
 
       @locations_for_move = T.let(nil, T.nilable(T::Array[T.untyped]))
@@ -38,7 +38,7 @@ module ShopifyAPI
       end
       def all(
         fulfillment_order_id: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         response = base_find(

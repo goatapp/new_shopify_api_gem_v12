@@ -5,15 +5,15 @@
 # This file is auto-generated. If you have an issue, please create a GitHub issue.                                     #
 ########################################################################################################################
 
-module ShopifyAPI
-  class Redirect < ShopifyAPI::Rest::Base
+module NewShopifyAPI
+  class Redirect < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
     @next_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
-    def initialize(session: ShopifyAPI::Context.active_session)
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
+    def initialize(session: NewShopifyAPI::Context.active_session)
       super(session: session)
 
       @id = T.let(nil, T.nilable(Integer))
@@ -50,7 +50,7 @@ module ShopifyAPI
       def find(
         id:,
         fields: nil,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         result = base_find(
           session: session,
@@ -68,7 +68,7 @@ module ShopifyAPI
       end
       def delete(
         id:,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         request(
           http_method: :delete,
@@ -96,7 +96,7 @@ module ShopifyAPI
         path: nil,
         target: nil,
         fields: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         response = base_find(
@@ -119,7 +119,7 @@ module ShopifyAPI
       def count(
         path: nil,
         target: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         request(

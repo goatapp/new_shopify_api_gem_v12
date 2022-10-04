@@ -46,15 +46,15 @@ bundle add shopify_api
 
 ### Setup Shopify Context
 
-Start by initializing the `ShopifyAPI::Context` with the parameters of your app by calling `ShopifyAPI::Context.setup` (example below) when your app starts (e.g `application.rb` in a Rails app).
+Start by initializing the `NewShopifyAPI::Context` with the parameters of your app by calling `NewShopifyAPI::Context.setup` (example below) when your app starts (e.g `application.rb` in a Rails app).
 
 ```ruby
-ShopifyAPI::Context.setup(
+NewShopifyAPI::Context.setup(
   api_key: "<api-key>",
   api_secret_key: "<api-secret-key>",
   host_name: "<application-host-name>",
   scope: "read_orders,read_products,etc",
-  session_storage: ShopifyAPI::Auth::FileSessionStorage.new, # See more details below
+  session_storage: NewShopifyAPI::Auth::FileSessionStorage.new, # See more details below
   is_embedded: true, # Set to true if you are building an embedded app
   is_private: false, # Set to true if you are building a private app
   api_version: "2022-01" # The version of the API you would like to use
@@ -63,7 +63,7 @@ ShopifyAPI::Context.setup(
 
 ### Setup a Session Store
 
-In order for the Shopify API gem to properly store sessions it needs an implementation of `ShopifyAPI::Auth::SessionStorage`. We provide one implementation in the gem, `ShopifyAPI::Auth::FileSessionStorage`, which is suitable for testing/development, but isn't intended for production apps. See the [Session Storage doc](docs/usage/session_storage.md) for instructions on how to create a custom session store for a production application.
+In order for the Shopify API gem to properly store sessions it needs an implementation of `NewShopifyAPI::Auth::SessionStorage`. We provide one implementation in the gem, `NewShopifyAPI::Auth::FileSessionStorage`, which is suitable for testing/development, but isn't intended for production apps. See the [Session Storage doc](docs/usage/session_storage.md) for instructions on how to create a custom session store for a production application.
 
 Session information would is typically stored in cookies on the browser. However, due to restrictions with modern browsers we highly discourage using cookies for embedded apps. For this reason, an app needs to define a storage implementation that the library can use to store and retrieve a session given its ID. In a non-embedded app this ID will come from a cookie, whereas in an embedded app this ID will come from [App Bridge](https://shopify.dev/apps/tools/app-bridge).
 
@@ -101,9 +101,9 @@ Please refer to [the documentation](docs/getting_started.md) in this repository 
 
 With this, a lot changed in how apps access the library. Here are the updates you should make when migrating to v10:
 
-- Call `ShopifyAPI::Context.setup` when setting up your app. This class holds global configurations for your app and defines how the library behaves.
-- If not using the `shopify_app` gem, your app needs to provide an implementation of `ShopifyAPI::Auth::SessionStorage` for production. Read more about this [in our documentation](docs/usage/session_storage.md).
-- To change the `User-Agent` header, use `user_agent_prefix` in `ShopifyAPI::Context.setup`.
+- Call `NewShopifyAPI::Context.setup` when setting up your app. This class holds global configurations for your app and defines how the library behaves.
+- If not using the `shopify_app` gem, your app needs to provide an implementation of `NewShopifyAPI::Auth::SessionStorage` for production. Read more about this [in our documentation](docs/usage/session_storage.md).
+- To change the `User-Agent` header, use `user_agent_prefix` in `NewShopifyAPI::Context.setup`.
 - Usages of the `ActiveResource` classes for REST API requests need to be refactored into the new format. You can find detailed examples on how each of the endpoints work in our [reference documentation](https://shopify.dev/api/admin-rest).
 
     Please see below a (non-exhaustive) list of common replacements to guide you in your updates, using the `Order` resource as an example.

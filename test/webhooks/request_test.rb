@@ -3,7 +3,7 @@
 
 require_relative "../test_helper"
 
-module ShopifyAPITest
+module NewShopifyAPITest
   module Webhooks
     class WebhookRequestTest < Minitest::Test
       def test_create_webhook_request
@@ -13,12 +13,12 @@ module ShopifyAPITest
           "HTTP_X_SHOPIFY_SHOP_DOMAIN" => "shop.myshopify.com",
         }
 
-        assert(ShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: headers))
+        assert(NewShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: headers))
       end
 
       def test_error_when_headers_missing
-        assert_raises(ShopifyAPI::Errors::InvalidWebhookError) do
-          ShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: {})
+        assert_raises(NewShopifyAPI::Errors::InvalidWebhookError) do
+          NewShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: {})
         end
       end
 
@@ -30,7 +30,7 @@ module ShopifyAPITest
           :clearance => "session",
         }
 
-        assert(ShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: headers))
+        assert(NewShopifyAPI::Webhooks::Request.new(raw_body: "{}", headers: headers))
       end
     end
   end

@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module Auth
     module Oauth
       extend T::Sig
@@ -20,7 +20,7 @@ module ShopifyAPI
         end
         def begin_auth(shop:, redirect_path:, is_online: true)
           unless Context.setup?
-            raise Errors::ContextNotSetupError, "ShopifyAPI::Context not setup, please call ShopifyAPI::Context.setup"
+            raise Errors::ContextNotSetupError, "NewShopifyAPI::Context not setup, please call NewShopifyAPI::Context.setup"
           end
           raise Errors::UnsupportedOauthError, "Cannot perform OAuth for private apps." if Context.private?
 
@@ -29,9 +29,9 @@ module ShopifyAPI
           cookie = SessionCookie.new(value: state, expires: Time.now + 60)
 
           query = {
-            client_id: ShopifyAPI::Context.api_key,
-            scope: ShopifyAPI::Context.scope.to_s,
-            redirect_uri: "https://#{ShopifyAPI::Context.host_name}#{redirect_path}",
+            client_id: NewShopifyAPI::Context.api_key,
+            scope: NewShopifyAPI::Context.scope.to_s,
+            redirect_uri: "https://#{NewShopifyAPI::Context.host_name}#{redirect_path}",
             state: state,
             "grant_options[]": is_online ? "per-user" : "",
           }
@@ -50,7 +50,7 @@ module ShopifyAPI
         end
         def validate_auth_callback(cookies:, auth_query:)
           unless Context.setup?
-            raise Errors::ContextNotSetupError, "ShopifyAPI::Context not setup, please call ShopifyAPI::Context.setup"
+            raise Errors::ContextNotSetupError, "NewShopifyAPI::Context not setup, please call NewShopifyAPI::Context.setup"
           end
           raise Errors::InvalidOauthError, "Invalid OAuth callback." unless Utils::HmacValidator.validate(auth_query)
           raise Errors::UnsupportedOauthError, "Cannot perform OAuth for private apps." if Context.private?

@@ -18,15 +18,15 @@ class Collect202201Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-01")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"collect" => {"id" => 1071559580, "collection_id" => 841564295, "product_id" => 921728736, "created_at" => "2022-10-03T13:19:30-04:00", "updated_at" => "2022-10-03T13:19:30-04:00", "position" => 2, "sort_value" => "0000000002"}}), headers: {})
 
-    collect = ShopifyAPI::Collect.new
+    collect = NewShopifyAPI::Collect.new
     collect.product_id = 921728736
     collect.collection_id = 841564295
     collect.save
@@ -59,7 +59,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({}), headers: {})
 
-    ShopifyAPI::Collect.delete(
+    NewShopifyAPI::Collect.delete(
       id: 455204334,
     )
 
@@ -77,7 +77,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"collect" => {"id" => 455204334, "collection_id" => 841564295, "product_id" => 632910392, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}}), headers: {})
 
-    ShopifyAPI::Collect.find(
+    NewShopifyAPI::Collect.find(
       id: 455204334,
     )
 
@@ -95,7 +95,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"collects" => [{"id" => 358268117, "collection_id" => 482865238, "product_id" => 632910392, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}, {"id" => 455204334, "collection_id" => 841564295, "product_id" => 632910392, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}, {"id" => 773559378, "collection_id" => 395646240, "product_id" => 632910392, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}]}), headers: {})
 
-    ShopifyAPI::Collect.all(
+    NewShopifyAPI::Collect.all(
       product_id: "632910392",
     )
 
@@ -113,7 +113,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"collects" => [{"id" => 358268117, "collection_id" => 482865238, "product_id" => 632910392, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}, {"id" => 455204334, "collection_id" => 841564295, "product_id" => 632910392, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}, {"id" => 773559378, "collection_id" => 395646240, "product_id" => 632910392, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}, {"id" => 800915878, "collection_id" => 482865238, "product_id" => 921728736, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}]}), headers: {})
 
-    ShopifyAPI::Collect.all
+    NewShopifyAPI::Collect.all
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-01/collects.json")
   end
@@ -129,7 +129,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"collects" => [{"id" => 455204334, "collection_id" => 841564295, "product_id" => 632910392, "created_at" => nil, "updated_at" => nil, "position" => 1, "sort_value" => "0000000001"}, {"id" => 1071559581, "collection_id" => 841564295, "product_id" => 921728736, "created_at" => "2022-10-03T13:19:33-04:00", "updated_at" => "2022-10-03T13:19:33-04:00", "position" => 2, "sort_value" => "0000000002"}]}), headers: {})
 
-    ShopifyAPI::Collect.all(
+    NewShopifyAPI::Collect.all(
       collection_id: "841564295",
     )
 
@@ -147,7 +147,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"count" => 1}), headers: {})
 
-    ShopifyAPI::Collect.count(
+    NewShopifyAPI::Collect.count(
       collection_id: "841564295",
     )
 
@@ -165,7 +165,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"count" => 2}), headers: {})
 
-    ShopifyAPI::Collect.count(
+    NewShopifyAPI::Collect.count(
       product_id: "632910392",
     )
 
@@ -183,7 +183,7 @@ class Collect202201Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"count" => 2}), headers: {})
 
-    ShopifyAPI::Collect.count
+    NewShopifyAPI::Collect.count
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-01/collects/count.json")
   end

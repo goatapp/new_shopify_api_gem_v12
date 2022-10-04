@@ -5,15 +5,15 @@
 # This file is auto-generated. If you have an issue, please create a GitHub issue.                                     #
 ########################################################################################################################
 
-module ShopifyAPI
-  class CarrierService < ShopifyAPI::Rest::Base
+module NewShopifyAPI
+  class CarrierService < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
     @next_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
-    def initialize(session: ShopifyAPI::Context.active_session)
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
+    def initialize(session: NewShopifyAPI::Context.active_session)
       super(session: session)
 
       @active = T.let(nil, T.nilable(T::Boolean))
@@ -62,7 +62,7 @@ module ShopifyAPI
       end
       def find(
         id:,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         result = base_find(
           session: session,
@@ -80,7 +80,7 @@ module ShopifyAPI
       end
       def delete(
         id:,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         request(
           http_method: :delete,
@@ -98,7 +98,7 @@ module ShopifyAPI
         ).returns(T::Array[CarrierService])
       end
       def all(
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         response = base_find(

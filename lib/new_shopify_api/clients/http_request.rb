@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module Clients
     class HttpRequest < T::Struct
       extend T::Sig
@@ -17,17 +17,17 @@ module ShopifyAPI
       sig { void }
       def verify
         unless [:get, :delete, :put, :post].include?(http_method)
-          raise ShopifyAPI::Errors::InvalidHttpRequestError, "Invalid Http method #{http_method}."
+          raise NewShopifyAPI::Errors::InvalidHttpRequestError, "Invalid Http method #{http_method}."
         end
 
         if body && !body_type
-          raise ShopifyAPI::Errors::InvalidHttpRequestError, "Cannot set a body without also setting body_type."
+          raise NewShopifyAPI::Errors::InvalidHttpRequestError, "Cannot set a body without also setting body_type."
         end
 
         return unless [:put, :post].include?(http_method)
 
         unless  body
-          raise ShopifyAPI::Errors::InvalidHttpRequestError, "Cannot use #{http_method} without specifying data."
+          raise NewShopifyAPI::Errors::InvalidHttpRequestError, "Cannot use #{http_method} without specifying data."
         end
       end
     end

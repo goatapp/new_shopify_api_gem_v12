@@ -5,15 +5,15 @@
 # This file is auto-generated. If you have an issue, please create a GitHub issue.                                     #
 ########################################################################################################################
 
-module ShopifyAPI
-  class Metafield < ShopifyAPI::Rest::Base
+module NewShopifyAPI
+  class Metafield < NewShopifyAPI::Rest::Base
     extend T::Sig
 
     @prev_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
     @next_page_info = T.let(Concurrent::ThreadLocalVar.new { nil }, Concurrent::ThreadLocalVar)
 
-    sig { params(session: T.nilable(ShopifyAPI::Auth::Session)).void }
-    def initialize(session: ShopifyAPI::Context.active_session)
+    sig { params(session: T.nilable(NewShopifyAPI::Auth::Session)).void }
+    def initialize(session: NewShopifyAPI::Context.active_session)
       super(session: session)
 
       @key = T.let(nil, T.nilable(String))
@@ -185,7 +185,7 @@ module ShopifyAPI
         product_id: nil,
         variant_id: nil,
         fields: nil,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         result = base_find(
           session: session,
@@ -223,7 +223,7 @@ module ShopifyAPI
         product_image_id: nil,
         product_id: nil,
         variant_id: nil,
-        session: ShopifyAPI::Context.active_session
+        session: NewShopifyAPI::Context.active_session
       )
         request(
           http_method: :delete,
@@ -283,7 +283,7 @@ module ShopifyAPI
         type: nil,
         fields: nil,
         metafield: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         response = base_find(
@@ -322,7 +322,7 @@ module ShopifyAPI
         product_image_id: nil,
         product_id: nil,
         variant_id: nil,
-        session: ShopifyAPI::Context.active_session,
+        session: NewShopifyAPI::Context.active_session,
         **kwargs
       )
         request(

@@ -3,13 +3,13 @@
 
 require_relative "../test_helper"
 
-module ShopifyAPITest
+module NewShopifyAPITest
   module Rest
     class BaseTest < Test::Unit::TestCase
       def setup
-        @session = ShopifyAPI::Auth::Session.new(shop: "test-shop.myshopify.com",
+        @session = NewShopifyAPI::Auth::Session.new(shop: "test-shop.myshopify.com",
           access_token: SecureRandom.alphanumeric(10))
-        @prefix = "https://#{@session.shop}/admin/api/#{ShopifyAPI::Context.api_version}"
+        @prefix = "https://#{@session.shop}/admin/api/#{NewShopifyAPI::Context.api_version}"
       end
 
       def test_finds_resource_by_id
@@ -56,7 +56,7 @@ module ShopifyAPITest
 
         stub_request(:get, "#{@prefix}/fake_resources/1.json").to_return(status: 404, body: body)
 
-        assert_raises(ShopifyAPI::Errors::HttpResponseError) do
+        assert_raises(NewShopifyAPI::Errors::HttpResponseError) do
           TestHelpers::FakeResource.find(id: 1, session: @session)
         end
       end
@@ -245,7 +245,7 @@ module ShopifyAPITest
       def test_create_resource_without_session
         modify_context(is_private: false)
 
-        assert_raises(ShopifyAPI::Errors::NoActiveSessionError) { TestHelpers::FakeResource.new }
+        assert_raises(NewShopifyAPI::Errors::NoActiveSessionError) { TestHelpers::FakeResource.new }
       end
 
       def test_makes_custom_request

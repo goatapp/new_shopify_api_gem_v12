@@ -18,15 +18,15 @@ class Blog202204Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-04")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blogs" => [{"id" => 382285388, "handle" => "banana-blog", "title" => "A Gnu Blog", "updated_at" => "2006-02-02T19:00:00-05:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T12:44:45-04:00", "template_suffix" => nil, "tags" => "", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/382285388"}, {"id" => 241253187, "handle" => "apple-blog", "title" => "Mah Blog", "updated_at" => "2006-02-01T19:00:00-05:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T12:44:45-04:00", "template_suffix" => nil, "tags" => "Announcing, Mystery", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/241253187"}]}), headers: {})
 
-    ShopifyAPI::Blog.all
+    NewShopifyAPI::Blog.all
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-04/blogs.json")
   end
@@ -56,7 +56,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blogs" => [{"id" => 382285388, "handle" => "banana-blog", "title" => "A Gnu Blog", "updated_at" => "2006-02-02T19:00:00-05:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T12:44:45-04:00", "template_suffix" => nil, "tags" => "", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/382285388"}, {"id" => 1008414252, "handle" => "apple-main-blog", "title" => "Apple main blog", "updated_at" => "2022-10-03T13:06:38-04:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T13:06:38-04:00", "template_suffix" => nil, "tags" => "", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/1008414252"}]}), headers: {})
 
-    ShopifyAPI::Blog.all(
+    NewShopifyAPI::Blog.all(
       since_id: "241253187",
     )
 
@@ -74,7 +74,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blog" => {"id" => 1008414248, "handle" => "apple-main-blog", "title" => "Apple main blog", "updated_at" => "2022-10-03T13:06:19-04:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T13:06:19-04:00", "template_suffix" => nil, "tags" => "", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/1008414248"}}), headers: {})
 
-    blog = ShopifyAPI::Blog.new
+    blog = NewShopifyAPI::Blog.new
     blog.title = "Apple main blog"
     blog.save
 
@@ -92,7 +92,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blog" => {"id" => 1008414250, "handle" => "apple-main-blog", "title" => "Apple main blog", "updated_at" => "2022-10-03T13:06:31-04:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T13:06:31-04:00", "template_suffix" => nil, "tags" => "", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/1008414250"}}), headers: {})
 
-    blog = ShopifyAPI::Blog.new
+    blog = NewShopifyAPI::Blog.new
     blog.title = "Apple main blog"
     blog.metafields = [
       {
@@ -118,7 +118,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"count" => 2}), headers: {})
 
-    ShopifyAPI::Blog.count
+    NewShopifyAPI::Blog.count
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-04/blogs/count.json")
   end
@@ -134,7 +134,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blog" => {"id" => 241253187, "title" => "Mah Blog"}}), headers: {})
 
-    ShopifyAPI::Blog.find(
+    NewShopifyAPI::Blog.find(
       id: 241253187,
       fields: "id,title",
     )
@@ -153,7 +153,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blog" => {"id" => 241253187, "handle" => "apple-blog", "title" => "Mah Blog", "updated_at" => "2006-02-01T19:00:00-05:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T12:44:45-04:00", "template_suffix" => nil, "tags" => "Announcing, Mystery", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/241253187"}}), headers: {})
 
-    ShopifyAPI::Blog.find(
+    NewShopifyAPI::Blog.find(
       id: 241253187,
     )
 
@@ -171,7 +171,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blog" => {"title" => "IPod Updates", "handle" => "apple-blog", "id" => 241253187, "updated_at" => "2022-10-03T13:06:22-04:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T12:44:45-04:00", "template_suffix" => nil, "tags" => "Announcing, Mystery", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/241253187"}}), headers: {})
 
-    blog = ShopifyAPI::Blog.new
+    blog = NewShopifyAPI::Blog.new
     blog.id = 241253187
     blog.title = "IPod Updates"
     blog.save
@@ -190,7 +190,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blog" => {"title" => "IPod Updates", "handle" => "ipod-updates", "commentable" => "moderate", "id" => 241253187, "updated_at" => "2022-10-03T13:06:29-04:00", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T12:44:45-04:00", "template_suffix" => nil, "tags" => "Announcing, Mystery", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/241253187"}}), headers: {})
 
-    blog = ShopifyAPI::Blog.new
+    blog = NewShopifyAPI::Blog.new
     blog.id = 241253187
     blog.title = "IPod Updates"
     blog.handle = "ipod-updates"
@@ -211,7 +211,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"blog" => {"title" => "Mah Blog", "handle" => "apple-blog", "id" => 241253187, "updated_at" => "2022-10-03T13:06:34-04:00", "commentable" => "no", "feedburner" => nil, "feedburner_location" => nil, "created_at" => "2022-10-03T12:44:45-04:00", "template_suffix" => nil, "tags" => "Announcing, Mystery", "admin_graphql_api_id" => "gid://shopify/OnlineStoreBlog/241253187"}}), headers: {})
 
-    blog = ShopifyAPI::Blog.new
+    blog = NewShopifyAPI::Blog.new
     blog.id = 241253187
     blog.metafields = [
       {
@@ -237,7 +237,7 @@ class Blog202204Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({}), headers: {})
 
-    ShopifyAPI::Blog.delete(
+    NewShopifyAPI::Blog.delete(
       id: 241253187,
     )
 

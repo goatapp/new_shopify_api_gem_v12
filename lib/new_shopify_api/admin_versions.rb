@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module AdminVersions
     SUPPORTED_ADMIN_VERSIONS = T.let([
       "unstable",
@@ -14,6 +14,6 @@ module ShopifyAPI
     LATEST_SUPPORTED_ADMIN_VERSION = T.let("2022-10", String)
   end
 
-  SUPPORTED_ADMIN_VERSIONS = ShopifyAPI::AdminVersions::SUPPORTED_ADMIN_VERSIONS
-  LATEST_SUPPORTED_ADMIN_VERSION = ShopifyAPI::AdminVersions::LATEST_SUPPORTED_ADMIN_VERSION
+  SUPPORTED_ADMIN_VERSIONS = NewShopifyAPI::AdminVersions::SUPPORTED_ADMIN_VERSIONS
+  LATEST_SUPPORTED_ADMIN_VERSION = NewShopifyAPI::AdminVersions::LATEST_SUPPORTED_ADMIN_VERSION
 end

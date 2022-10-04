@@ -4,7 +4,7 @@
 module TestHelpers
   module SessionStorage
     def session
-      associated_user = ShopifyAPI::Auth::AssociatedUser.new(
+      associated_user = NewShopifyAPI::Auth::AssociatedUser.new(
         id: 123,
         first_name: "first-name",
         last_name: "last-name",
@@ -14,7 +14,7 @@ module TestHelpers
         locale: "en-us",
         collaborator: true,
       )
-      ShopifyAPI::Auth::Session.new(
+      NewShopifyAPI::Auth::Session.new(
         id: "id",
         shop: "test-shop",
         state: "test-state",

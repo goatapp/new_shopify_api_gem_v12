@@ -1,7 +1,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module ShopifyAPI
+module NewShopifyAPI
   module Clients
     class HttpClient
       extend T::Sig
@@ -69,13 +69,13 @@ module ShopifyAPI
           error_message = error_messages.join("\n")
 
           unless [429, 500].include?(response.code)
-            raise ShopifyAPI::Errors::HttpResponseError.new(code: response.code.to_i), error_message
+            raise NewShopifyAPI::Errors::HttpResponseError.new(code: response.code.to_i), error_message
           end
 
           if tries == request.tries
-            raise ShopifyAPI::Errors::HttpResponseError.new(code: response.code), error_message if request.tries == 1
+            raise NewShopifyAPI::Errors::HttpResponseError.new(code: response.code), error_message if request.tries == 1
 
-            raise ShopifyAPI::Errors::MaxHttpRetriesExceededError.new(code: response.code),
+            raise NewShopifyAPI::Errors::MaxHttpRetriesExceededError.new(code: response.code),
               "Exceeded maximum retry count of #{request.tries}. Last message: #{error_message}"
           end
 

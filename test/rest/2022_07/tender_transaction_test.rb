@@ -18,15 +18,15 @@ class TenderTransaction202207Test < Test::Unit::TestCase
   def setup
     super
 
-    test_session = ShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
-    ShopifyAPI::Context.activate_session(test_session)
+    test_session = NewShopifyAPI::Auth::Session.new(id: "id", shop: "test-shop.myshopify.io", access_token: "this_is_a_test_token")
+    NewShopifyAPI::Context.activate_session(test_session)
     modify_context(api_version: "2022-07")
   end
 
   def teardown
     super
 
-    ShopifyAPI::Context.deactivate_session
+    NewShopifyAPI::Context.deactivate_session
   end
 
   sig do
@@ -40,7 +40,7 @@ class TenderTransaction202207Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"tender_transactions" => [{"id" => 1011222834, "order_id" => 450789469, "amount" => "250.94", "currency" => "USD", "user_id" => nil, "test" => false, "processed_at" => "2005-08-07T10:22:51-04:00", "remote_reference" => "authorization-key", "payment_details" => nil, "payment_method" => "credit_card"}]}), headers: {})
 
-    ShopifyAPI::TenderTransaction.all(
+    NewShopifyAPI::TenderTransaction.all(
       since_id: "1011222833",
     )
 
@@ -58,7 +58,7 @@ class TenderTransaction202207Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"tender_transactions" => [{"id" => 1011222835, "order_id" => 450789469, "amount" => "250.94", "currency" => "USD", "user_id" => nil, "test" => false, "processed_at" => "2005-08-05T10:22:51-04:00", "remote_reference" => "authorization-key", "payment_details" => nil, "payment_method" => "credit_card"}]}), headers: {})
 
-    ShopifyAPI::TenderTransaction.all(
+    NewShopifyAPI::TenderTransaction.all(
       processed_at_max: "2005-08-06 10:22:51 -0400",
     )
 
@@ -76,7 +76,7 @@ class TenderTransaction202207Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"tender_transactions" => [{"id" => 1011222837, "order_id" => 450789469, "amount" => "250.94", "currency" => "USD", "user_id" => nil, "test" => false, "processed_at" => "2005-08-05T10:22:51-04:00", "remote_reference" => "authorization-key", "payment_details" => nil, "payment_method" => "credit_card"}]}), headers: {})
 
-    ShopifyAPI::TenderTransaction.all(
+    NewShopifyAPI::TenderTransaction.all(
       processed_at_max: "2005-08-05 10:22:51 -0400",
     )
 
@@ -94,7 +94,7 @@ class TenderTransaction202207Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"tender_transactions" => [{"id" => 1011222844, "order_id" => 450789469, "amount" => "250.94", "currency" => "USD", "user_id" => nil, "test" => false, "processed_at" => "2005-08-07T10:22:51-04:00", "remote_reference" => "authorization-key", "payment_details" => nil, "payment_method" => "credit_card"}, {"id" => 1011222843, "order_id" => 450789469, "amount" => "250.94", "currency" => "USD", "user_id" => nil, "test" => false, "processed_at" => "2005-08-05T10:22:51-04:00", "remote_reference" => "authorization-key", "payment_details" => nil, "payment_method" => "credit_card"}]}), headers: {})
 
-    ShopifyAPI::TenderTransaction.all
+    NewShopifyAPI::TenderTransaction.all
 
     assert_requested(:get, "https://test-shop.myshopify.io/admin/api/2022-07/tender_transactions.json")
   end
@@ -110,7 +110,7 @@ class TenderTransaction202207Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"tender_transactions" => [{"id" => 1011222848, "order_id" => 450789469, "amount" => "250.94", "currency" => "USD", "user_id" => nil, "test" => false, "processed_at" => "2005-08-07T10:22:51-04:00", "remote_reference" => "authorization-key", "payment_details" => nil, "payment_method" => "credit_card"}]}), headers: {})
 
-    ShopifyAPI::TenderTransaction.all(
+    NewShopifyAPI::TenderTransaction.all(
       processed_at_min: "2005-08-06 10:22:51 -0400",
     )
 
@@ -128,7 +128,7 @@ class TenderTransaction202207Test < Test::Unit::TestCase
       )
       .to_return(status: 200, body: JSON.generate({"tender_transactions" => [{"id" => 1011222849, "order_id" => 450789469, "amount" => "250.94", "currency" => "USD", "user_id" => nil, "test" => false, "processed_at" => "2005-08-05T10:22:51-04:00", "remote_reference" => "authorization-key", "payment_details" => nil, "payment_method" => "credit_card"}, {"id" => 1011222850, "order_id" => 450789469, "amount" => "250.94", "currency" => "USD", "user_id" => nil, "test" => false, "processed_at" => "2005-08-07T10:22:51-04:00", "remote_reference" => "authorization-key", "payment_details" => nil, "payment_method" => "credit_card"}]}), headers: {})
 
-    ShopifyAPI::TenderTransaction.all(
+    NewShopifyAPI::TenderTransaction.all(
       order: "processed_at ASC",
     )
 

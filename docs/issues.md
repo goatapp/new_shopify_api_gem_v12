@@ -4,9 +4,9 @@ By following this guide, you will have a fully functional Shopify app. However, 
 
 ## Notes on session handling
 
-Before you start writing your application, please note that the Shopify library needs to store some information for OAuth in sessions. Since each application may choose a different strategy to store information, the library cannot dictate any specific storage strategy. When calling `ShopifyAPI::Context.setup`, you'll need to provide an instance of a class that implements the `ShopifyAPI::Auth::SessionStorage` interface.
+Before you start writing your application, please note that the Shopify library needs to store some information for OAuth in sessions. Since each application may choose a different strategy to store information, the library cannot dictate any specific storage strategy. When calling `NewShopifyAPI::Context.setup`, you'll need to provide an instance of a class that implements the `NewShopifyAPI::Auth::SessionStorage` interface.
 
-This library provides a very simple implementation of that interface which stores sessions in files, `ShopifyAPI::Auth::FileSessionStorage` ([source code](../lib/shopify_api/auth/file_session_storage.rb)). This class is meant to speed up development with this library, but it is not suitable for production use, because it will lead to disk build-up as old sessions are not cleaned up.
+This library provides a very simple implementation of that interface which stores sessions in files, `NewShopifyAPI::Auth::FileSessionStorage` ([source code](../lib/shopify_api/auth/file_session_storage.rb)). This class is meant to speed up development with this library, but it is not suitable for production use, because it will lead to disk build-up as old sessions are not cleaned up.
 
 Before you deploy your app to production, it should use your selected storage method for sessions. You can do that by creating a class that implements the `SessionStorage` interface and pass that in your `Context.setup` call. Your class will need to implement the methods below.
 
