@@ -10,7 +10,7 @@ AllCops:
   Exclude:
     - "sorbet/**/*"
     - "bin/**/*"
-    - "lib/shopify_api/rest/resources/**/*"
+    - "lib/new_shopify_api/rest/resources/**/*"
     - "test/rest/**/*"
 
 Sorbet:
@@ -23,7 +23,7 @@ Sorbet/StrictSigil:
   Enabled: true
   Exclude:
     - Gemfile*
-    - "lib/shopify_api/auth/session.rb"
+    - "lib/new_shopify_api/auth/session.rb"
     - Rakefile
     - "test/**/*"
 Sorbet/TrueSigil:
