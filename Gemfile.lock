@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    shopify_api (12.0.0)
+    new_shopify_api (12.0.0)
       concurrent-ruby
       hash_diff
       httparty
@@ -136,7 +136,7 @@ DEPENDENCIES
   rubocop
   rubocop-shopify
   rubocop-sorbet
-  shopify_api!
+  new_shopify_api!
   sorbet
   tapioca
   webmock
