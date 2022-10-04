@@ -9,7 +9,7 @@ require "webmock/minitest"
 require "mocha"
 require "mocha/minitest"
 
-require "new_shopify_api"
+require "shopify_api"
 
 require_relative("./test_helpers/constants.rb")
 
